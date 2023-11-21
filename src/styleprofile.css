@@ -1,0 +1,41 @@
+/* Page container styling */
+.pageon {
+  background: linear-gradient(to right, #3498db, #2c3e50);
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Section styling */
+.home-section {
+  margin-top: 40px;
+  padding: 60px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 100%; /* Adjust the width of the section */
+  max-width: 1000px; /* Set a maximum width for better readability */
+}
+
+/* Student information styling */
+.student-info {
+  margin-top: 20px;
+  color: #333;
+}
+
+.student-info h2 {
+  color: #3498db;
+  margin-bottom: 15px;
+}
+
+.student-info strong {
+  color: #3498db;
+}
+
+/* Additional styling for University Information and Personal Information */
+.home-section:not(:first-child) {
+  margin-top: 20px;
+}

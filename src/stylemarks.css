@@ -1,0 +1,55 @@
+/* stylemarks.css */
+
+.marks-container {
+  margin-top: 20px;
+  text-align: center;
+  padding: 100px;
+  background-color: rgb(110, 125, 154); /* White background with 90% opacity */
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.marks-container table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  overflow: hidden;
+}
+
+.marks-container th,
+.marks-container td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.marks-container th {
+  background-color: #3498db; /* Blue background color */
+  color: white; /* White text color */
+}
+
+.marks-container tr {
+  transition: background-color 0.3s ease;
+}
+
+/* Improved hover effect */
+.marks-container tr:hover {
+  background-color: #000000; /* Slightly darker blue on hover */
+  color: blue; /* White text color on hover */
+}
+
+/* Styling for odd rows */
+.marks-container tr:nth-child(odd) {
+  background-color: #f2f2f2;
+}
+
+/* Styling for even rows */
+.marks-container tr:nth-child(even) {
+  background-color: #e6e6e6;
+}
+
+/* Styling for roll number and name cells */
+.marks-container td:nth-child(1) {
+  font-weight: bold;
+  color: #3498db;
+}
