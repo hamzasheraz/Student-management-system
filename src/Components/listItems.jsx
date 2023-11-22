@@ -7,10 +7,10 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import PaymentIcon from "@mui/icons-material/Payment";
 import BarChartIcon from "@mui/icons-material/BarChart";
-import LayersIcon from "@mui/icons-material/Layers";
 import PieChartIcon from "@mui/icons-material/PieChart";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import ViewTimelineIcon from "@mui/icons-material/ViewTimeline";
+import LogoutIcon from "@mui/icons-material/Logout";
 import { Link } from "react-router-dom";
 
 export const mainListItems = (
@@ -67,9 +67,7 @@ export const mainListItems = (
 
 export const secondaryListItems = (
   <React.Fragment>
-    <ListSubheader component="div" inset>
-      Saved reports
-    </ListSubheader>
+    <ListSubheader component="div" inset></ListSubheader>
     <Link
       to="/fee-payment"
       style={{ textDecoration: "none", color: "inherit" }}
@@ -89,9 +87,9 @@ export const secondaryListItems = (
     </ListItemButton>
     <ListItemButton>
       <ListItemIcon>
-        <AssignmentIcon />
+        <LogoutIcon />
       </ListItemIcon>
-      <ListItemText primary="Year-end sale" />
+      <ListItemText primary="Logout" />
     </ListItemButton>
   </React.Fragment>
 );
