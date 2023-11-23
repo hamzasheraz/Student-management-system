@@ -5,8 +5,8 @@ import TeacherLogin from "./Components/TeacherLogin";
 function App() {
   return (
     <div className="App">
-      {/* <Home /> */}
-      <TeacherLogin />
+      <Home />
+      {/* <TeacherLogin /> */}
     </div>
   );
 }
