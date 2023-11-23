@@ -1,4 +1,4 @@
-import * as React from "react";
+// import * as React from "react";
 import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import MuiDrawer from "@mui/material/Drawer";
@@ -26,6 +26,15 @@ import { Route, Routes } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import Attendance from "./Attendance";
 import CourseRegistration from "./CourseRegistration";
+import Notifications from "./Notifications";
+import Modal from "@mui/material/Modal";
+import React, { useState, useEffect } from "react";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
 
 function Copyright(props) {
   return (
@@ -99,6 +108,24 @@ export default function Student() {
     setOpen(!open);
   };
 
+  const [getRows, setRows] = useState([]);
+  const [loadData, setData] = useState([]);
+  const [name, setName] = useState("");
+  const [desc, setDesc] = useState("");
+
+  const [openn, setOpenn] = React.useState(false);
+
+  const handleClose = () => setOpenn(false);
+  const handleOpen = () => {
+    setOpenn(true);
+    //loadList();
+  };
+
+  const sample_data = {
+    Teacher: "Nauman",
+    Message: "Ajao kamry",
+  };
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <Box sx={{ display: "flex" }}>
@@ -132,7 +159,54 @@ export default function Student() {
             </Typography>
             <IconButton color="inherit">
               <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
+                <NotificationsIcon onClick={handleOpen} />
+                {/* <Notifications /> */}
+                <Modal
+                  open={openn}
+                  onClose={handleClose}
+                  aria-labelledby="modal-modal-title"
+                  aria-describedby="modal-modal-description"
+                >
+                  <Box sx={style}>
+                    <Grid container spacing={2}>
+                      <Grid xs={12}>
+                        <TableContainer component={Paper}>
+                          <Table
+                            sx={{ minWidth: 250 }}
+                            size="small"
+                            aria-label="a dense table"
+                          >
+                            <TableHead>
+                              <TableRow>
+                                <TableCell component="th">
+                                  <b>Student Name</b>
+                                </TableCell>
+                                <TableCell component="th">
+                                  <b>Description</b>
+                                </TableCell>
+                              </TableRow>
+                            </TableHead>
+                            <TableBody>
+                              {/* {loadData.map((row) => ( */}
+                              <TableRow
+                              // style={{
+                              //   backgroundColor:
+                              //     row.status == "0" ? "#ccffcc" : "white",
+                              // }}
+                              >
+                                <TableCell> {sample_data.Teacher} </TableCell>
+                                <TableCell>{sample_data.Message}</TableCell>
+                              </TableRow>
+                              {/* ))} */}
+                            </TableBody>
+                          </Table>
+                        </TableContainer>
+                      </Grid>
+                    </Grid>
+                    <br />
+                    <br />
+                  </Box>
+                </Modal>
               </Badge>
             </IconButton>
           </Toolbar>
@@ -192,3 +266,15 @@ export default function Student() {
     </ThemeProvider>
   );
 }
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  // width: 400,
+  // bgcolor: "background.paper",
+  // border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
