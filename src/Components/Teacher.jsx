@@ -1,4 +1,7 @@
-// import * as React from "react";
+import Listitems2 from "./Listitems2";
+import Teachermarks from "./Teachermarks";
+import Teacherattendance from "./Teacherattendance";
+import * as React from "react";
 import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import MuiDrawer from "@mui/material/Drawer";
@@ -11,31 +14,13 @@ import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import Badge from "@mui/material/Badge";
 import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper";
 import Link from "@mui/material/Link";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import { mainListItems, secondaryListItems } from "./listItems";
-import Profile from "./Profile";
-import Marks from "./Marks";
-import TimeTable from "./TimeTable";
-import FeeGeneration from "./FeeGeneration";
-import { Route, Routes } from "react-router-dom";
+import { mainListItems2, secondaryListItems2 } from "./Listitems2";
+import { Route, Router, Routes } from "react-router-dom";
 import { Navigate } from "react-router-dom";
-import Attendance from "./Attendance";
-import CourseRegistration from "./CourseRegistration";
-import Notifications from "./Notifications";
-import Modal from "@mui/material/Modal";
-import React, { useState, useEffect } from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-// import Feedback from "./Feedback";
 
 function Copyright(props) {
   return (
@@ -103,28 +88,10 @@ const Drawer = styled(MuiDrawer, {
 
 const defaultTheme = createTheme();
 
-export default function Student() {
+export default function Teacher() {
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
-  };
-
-  const [getRows, setRows] = useState([]);
-  const [loadData, setData] = useState([]);
-  const [name, setName] = useState("");
-  const [desc, setDesc] = useState("");
-
-  const [openn, setOpenn] = React.useState(false);
-
-  const handleClose = () => setOpenn(false);
-  const handleOpen = () => {
-    setOpenn(true);
-    //loadList();
-  };
-
-  const sample_data = {
-    Teacher: "Nauman",
-    Message: "Ajao kamry",
   };
 
   return (
@@ -156,60 +123,8 @@ export default function Student() {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              Student Dashboard
+              Teacher Dashboard
             </Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon onClick={handleOpen} />
-                {/* <Notifications /> */}
-                <Modal
-                  open={openn}
-                  onClose={handleClose}
-                  aria-labelledby="modal-modal-title"
-                  aria-describedby="modal-modal-description"
-                >
-                  <Box sx={style}>
-                    <Grid container spacing={2}>
-                      <Grid xs={12}>
-                        <TableContainer component={Paper}>
-                          <Table
-                            sx={{ minWidth: 250 }}
-                            size="small"
-                            aria-label="a dense table"
-                          >
-                            <TableHead>
-                              <TableRow>
-                                <TableCell component="th">
-                                  <b>Teacher Name</b>
-                                </TableCell>
-                                <TableCell component="th">
-                                  <b>Message</b>
-                                </TableCell>
-                              </TableRow>
-                            </TableHead>
-                            <TableBody>
-                              {/* {loadData.map((row) => ( */}
-                              <TableRow
-                              // style={{
-                              //   backgroundColor:
-                              //     row.status == "0" ? "#ccffcc" : "white",
-                              // }}
-                              >
-                                <TableCell> {sample_data.Teacher} </TableCell>
-                                <TableCell>{sample_data.Message}</TableCell>
-                              </TableRow>
-                              {/* ))} */}
-                            </TableBody>
-                          </Table>
-                        </TableContainer>
-                      </Grid>
-                    </Grid>
-                    <br />
-                    <br />
-                  </Box>
-                </Modal>
-              </Badge>
-            </IconButton>
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
@@ -227,9 +142,9 @@ export default function Student() {
           </Toolbar>
           <Divider />
           <List component="nav">
-            {mainListItems}
+            {mainListItems2}
             <Divider sx={{ my: 1 }} />
-            {secondaryListItems}
+            {secondaryListItems2}
           </List>
         </Drawer>
         <Box
@@ -247,18 +162,13 @@ export default function Student() {
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Routes>
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/fee-payment" element={<FeeGeneration />} />
+              <Route path="/teacher/marks" element={<Teachermarks />} />
               <Route
-                path="course-registeration"
-                element={<CourseRegistration />}
+                path="/teacher/attendance"
+                element={<Teacherattendance />}
               />
-              <Route path="/attendance" element={<Attendance />} />
-              <Route path="/marks" element={<Marks />} />
-              <Route path="/time-table" element={<TimeTable />} />
-              {/* <Route path="/feedback" element={<Feedback />} /> */}
-              <Route path="/" element={<Navigate to="/profile" />} />
             </Routes>
+
             {/* Add more routes for other pages */}
 
             <Copyright sx={{ pt: 4 }} />
@@ -268,15 +178,3 @@ export default function Student() {
     </ThemeProvider>
   );
 }
-
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  // width: 400,
-  // bgcolor: "background.paper",
-  // border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};

@@ -1,12 +1,8 @@
 import React, { useState } from "react";
 import "../style.css";
-
-import preloader from "./preloaderr";
-import Student from "./Student";
 import Teacher from "./Teacher";
-// import TimeTable from "./TimeTable";
 
-export default function Home() {
+export default function TeacherLogin() {
   const [registration, setregistration] = useState(false);
   const [name, setname] = useState("");
   const [password, setpassword] = useState("");
@@ -21,15 +17,14 @@ export default function Home() {
     <>
       {registration ? (
         <>
-          {/* <preloader/> */}
-          <Student />
+          <Teacher />
         </>
       ) : (
         <div>
           <div className="sidenav">
             <div className="login-main-text">
               <h2>
-                Student Application
+                Teacher Application
                 <br /> Login Page
               </h2>
               <p>Login from here to access.</p>
@@ -40,7 +35,7 @@ export default function Home() {
               <div className="login-form">
                 <form>
                   <div className="form-group">
-                    <label>Roll-Number</label>
+                    <label>Teacher Id</label>
                     <input
                       type="text"
                       className="form-control"
@@ -48,7 +43,7 @@ export default function Home() {
                       onChange={(event) => {
                         setname(event.target.value);
                       }}
-                      placeholder="Roll Number"
+                      placeholder="Teacher Id"
                     />
                   </div>
                   <div className="form-group">

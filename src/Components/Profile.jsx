@@ -31,7 +31,7 @@ function Profile() {
 
           <div className="main-body">
             <div className="student-info">
-              <h2>Acaedmic Information</h2>
+              <h2>Academic Information</h2>
               <div>
                 <strong>Name:</strong> {studentData.name}
               </div>

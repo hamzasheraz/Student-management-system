@@ -103,10 +103,10 @@ function Notifications() {
                   <TableHead>
                     <TableRow>
                       <TableCell component="th">
-                        <b>Student Name</b>
+                        <b>Teacher Name</b>
                       </TableCell>
                       <TableCell component="th">
-                        <b>Description</b>
+                        <b>Message</b>
                       </TableCell>
                     </TableRow>
                   </TableHead>
