@@ -1,7 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../styleprofile.css";
+import axios from "axios";
 
 function Profile() {
+  let apiKey = process.env.REACT_APP_API_KEY;
+
+  useEffect(() => {
+    const continuous = async () => {
+      try {
+        let url = await axios.get(apiKey + "/quizes/");
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    continuous();
+  }, []);
   const studentData = {
     name: "John Doe",
     rollNumber: "123456",

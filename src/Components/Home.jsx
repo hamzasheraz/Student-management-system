@@ -12,11 +12,13 @@ export default function Home() {
   const [errorMessage, setErrorMessage] = useState("");
   const [login, setLogin] = useState(false);
 
+  let apiKey = process.env.REACT_APP_API_KEY;
+
   const func = (event) => {
     event.preventDefault();
     if (rollNum && password) {
       axios
-        .post("http://127.0.0.1:8000/login/", { rollNum, password })
+        .post(apiKey + "login/", { rollNum, password })
         .then((response) => {
           if (response.data.status) {
             setLogin(true);
