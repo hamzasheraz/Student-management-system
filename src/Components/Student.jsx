@@ -22,8 +22,8 @@ import Profile from "./Profile";
 import Marks from "./Marks";
 import TimeTable from "./TimeTable";
 import FeeGeneration from "./FeeGeneration";
-import { Route, Routes } from "react-router-dom";
-import { Navigate } from "react-router-dom";
+import { Outlet, Route, Routes } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import Attendance from "./Attendance";
 import CourseRegistration from "./CourseRegistration";
 import Notifications from "./Notifications";
@@ -35,6 +35,7 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import StudentLogout from "./StudentLogout";
 // import Feedback from "./Feedback";
 
 function Copyright(props) {
@@ -113,6 +114,27 @@ export default function Student() {
   const [loadData, setData] = useState([]);
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
+  const navigate = useNavigate();
+  const [isLoggedIn, setLoggedIn] = useState(false);
+
+  useEffect(() => {
+    // Check the login status when the component mounts
+    const studentLoginStatus = localStorage.getItem("studentLoginStatus");
+
+    if (studentLoginStatus === "true") {
+      // console.log(studentLoginStatus);
+      // Redirect only if not already on the student profile page
+      if (window.location.pathname !== "/dashboard/student-profile") {
+        window.location = "/dashboard/student-profile";
+      }
+    } else {
+      // console.log(studentLoginStatus);
+      // Redirect only if not already on the student login page
+      if (window.location.pathname !== "/student-login") {
+        window.location.href = "/student-login";
+      }
+    }
+  }, []);
 
   const [openn, setOpenn] = React.useState(false);
 
@@ -170,7 +192,7 @@ export default function Student() {
                 >
                   <Box sx={style}>
                     <Grid container spacing={2}>
-                      <Grid xs={12}>
+                      <Grid item xs={12}>
                         <TableContainer component={Paper}>
                           <Table
                             sx={{ minWidth: 250 }}
@@ -246,19 +268,19 @@ export default function Student() {
         >
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            <Routes>
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/fee-payment" element={<FeeGeneration />} />
+            <Outlet />
+            {/* <Routes>
+              <Route path="/student-profile" element={<Profile />} />
+              <Route path="/student-fee-payment" element={<FeeGeneration />} />
               <Route
-                path="course-registeration"
+                path="/student-course-registeration"
                 element={<CourseRegistration />}
               />
-              <Route path="/attendance" element={<Attendance />} />
-              <Route path="/marks" element={<Marks />} />
-              <Route path="/time-table" element={<TimeTable />} />
-              {/* <Route path="/feedback" element={<Feedback />} /> */}
-              <Route path="/" element={<Navigate to="/profile" />} />
-            </Routes>
+              <Route path="/student-attendance" element={<Attendance />} />
+              <Route path="/student-marks" element={<Marks />} />
+              <Route path="/student-time-table" element={<TimeTable />} />
+              <Route path="/student-logout" element={<StudentLogout />} />
+            </Routes> */}
             {/* Add more routes for other pages */}
 
             <Copyright sx={{ pt: 4 }} />

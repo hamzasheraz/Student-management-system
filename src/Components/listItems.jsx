@@ -15,7 +15,10 @@ import FeedbackIcon from "@mui/icons-material/Feedback";
 
 export const mainListItems = (
   <React.Fragment>
-    <Link to="/profile" style={{ textDecoration: "none", color: "inherit" }}>
+    <Link
+      to="student-profile"
+      style={{ textDecoration: "none", color: "inherit" }}
+    >
       <ListItemButton>
         <ListItemIcon>
           <DashboardIcon />
@@ -24,7 +27,10 @@ export const mainListItems = (
       </ListItemButton>
     </Link>
 
-    <Link to="/attendance" style={{ textDecoration: "none", color: "inherit" }}>
+    <Link
+      to="student-attendance"
+      style={{ textDecoration: "none", color: "inherit" }}
+    >
       <ListItemButton>
         <ListItemIcon>
           <PieChartIcon />
@@ -34,7 +40,7 @@ export const mainListItems = (
     </Link>
 
     <Link
-      to="/course-registeration"
+      to="student-course-registeration"
       style={{ textDecoration: "none", color: "inherit" }}
     >
       <ListItemButton>
@@ -45,7 +51,10 @@ export const mainListItems = (
       </ListItemButton>
     </Link>
 
-    <Link to="/marks" style={{ textDecoration: "none", color: "inherit" }}>
+    <Link
+      to="student-marks"
+      style={{ textDecoration: "none", color: "inherit" }}
+    >
       <ListItemButton>
         <ListItemIcon>
           <BarChartIcon />
@@ -54,7 +63,10 @@ export const mainListItems = (
       </ListItemButton>
     </Link>
 
-    <Link to="/time-table" style={{ textDecoration: "none", color: "inherit" }}>
+    <Link
+      to="student-time-table"
+      style={{ textDecoration: "none", color: "inherit" }}
+    >
       <ListItemButton>
         <ListItemIcon>
           <ViewTimelineIcon />
@@ -69,7 +81,7 @@ export const secondaryListItems = (
   <React.Fragment>
     <ListSubheader component="div" inset></ListSubheader>
     <Link
-      to="/fee-payment"
+      to="student-fee-payment"
       style={{ textDecoration: "none", color: "inherit" }}
     >
       <ListItemButton>
@@ -79,7 +91,10 @@ export const secondaryListItems = (
         <ListItemText primary="Fee Payment" />
       </ListItemButton>
     </Link>
-    <Link to="/feedback" style={{ textDecoration: "none", color: "inherit" }}>
+    <Link
+      to="student-feedback"
+      style={{ textDecoration: "none", color: "inherit" }}
+    >
       <ListItemButton>
         <ListItemIcon>
           <FeedbackIcon />
@@ -87,11 +102,16 @@ export const secondaryListItems = (
         <ListItemText primary="Feedback" />
       </ListItemButton>
     </Link>
-    <ListItemButton>
-      <ListItemIcon>
-        <LogoutIcon />
-      </ListItemIcon>
-      <ListItemText primary="Logout" />
-    </ListItemButton>
+    <Link
+      to="student-logout"
+      style={{ textDecoration: "none", color: "inherit" }}
+    >
+      <ListItemButton>
+        <ListItemIcon>
+          <LogoutIcon />
+        </ListItemIcon>
+        <ListItemText primary="Logout" />
+      </ListItemButton>
+    </Link>
   </React.Fragment>
 );

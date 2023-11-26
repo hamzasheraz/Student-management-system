@@ -1,6 +1,6 @@
 import React from "react";
 
-function preloaderr() {
+function Preloaderr() {
   return (
     <div id="preloader">
       <img src="preloader.gif" alt="Preloader" />
@@ -8,4 +8,4 @@ function preloaderr() {
   );
 }
 
-export default preloaderr;
+export default Preloaderr;
