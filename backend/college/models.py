@@ -1,8 +1,7 @@
+from django.contrib.auth.models import AbstractBaseUser, User
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.hashers import make_password
-from django.contrib.auth.models import AbstractBaseUser
-# Create your models here.
 
 
 class Student(AbstractBaseUser):

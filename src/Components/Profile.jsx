@@ -10,12 +10,26 @@ function Profile() {
   // Set the default authorization header for all axios requests
   axios.defaults.headers.common["Authorization"] = `JWT ${token}`;
 
-  const [studentData1, setStudentData] = useState({});
+  const [studentData, setStudentData] = useState({});
   const [academyData, setAcademyData] = useState({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Fetch student and academy data using the token
+    const token1 = localStorage.getItem("accessToken");
+
+    if (token1) {
+      // Redirect only if not already on the student profile page
+      if (window.location.pathname !== "/dashboard/student-profile") {
+        window.location = "/dashboard/student-profile";
+      }
+    } else {
+      // Redirect only if not already on the student login page
+      if (window.location.pathname !== "/student-login") {
+        window.location.href = "/student-login";
+      }
+    }
+
     const fetchData = async () => {
       try {
         // Fetch student data
@@ -32,19 +46,6 @@ function Profile() {
     fetchData();
   }, [apiKey]);
 
-  const studentData = {
-    name: "John Doe",
-    rollNumber: "123456",
-    department: "Computer Science",
-    batch: "2023",
-    email: "john.doe@example.com",
-    group: "B+",
-    dob: "23/7/2003",
-    cnic: "3520128929876",
-    nationality: "Pakistani",
-    MobileNo: "03865627389",
-  };
-
   const Academy = {
     Name: "Kips",
     email: "kips@gmail.com",
@@ -58,15 +59,15 @@ function Profile() {
           {/* <div className="text" style={{ fontWeight: 'bolder' }}>
                     <i className="bx bx-home"></i>&nbsp;Student Home Page
                  </div> */}
-          {console.log(studentData1)}
           <div className="main-body">
             <div className="student-info">
               <h2>Academic Information</h2>
               <div>
-                <strong>Name:</strong> {studentData.name}
+                <strong>Name:</strong> {studentData.first_name}{" "}
+                {studentData.last_name}
               </div>
               <div>
-                <strong>Roll Number:</strong> {studentData.rollNumber}
+                <strong>Roll Number:</strong> {studentData.roll_number}
               </div>
               <div>
                 <strong>Department:</strong> {studentData.department}
@@ -113,10 +114,11 @@ function Profile() {
             <div className="student-info">
               <h2>Personal Information</h2>
               <div>
-                <strong>Name:</strong> {studentData.name}
+                <strong>Name:</strong>
+                {studentData.first_name} {studentData.last_name}
               </div>
               <div>
-                <strong>Blood group:</strong> {studentData.group}
+                <strong>Blood group:</strong> {studentData.blood_group}
               </div>
               <div>
                 <strong>Cnic:</strong> {studentData.cnic}
@@ -125,7 +127,7 @@ function Profile() {
                 <strong>DOB:</strong> {studentData.dob}
               </div>
               <div>
-                <strong>Mobile Number:</strong> {studentData.MobileNo}
+                <strong>Mobile Number:</strong> {studentData.mobile_number}
               </div>
               <div>
                 <strong>Nationality:</strong> {studentData.nationality}

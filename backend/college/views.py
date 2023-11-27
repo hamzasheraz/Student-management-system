@@ -13,11 +13,12 @@ import json
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_student_info(request):
-    # Retrieve the authenticated student
-    student = request.user  # Assuming the user is a Student model instance
-    print(student)
+    # Get the user from the request
+    student = request.user
+
     # Serialize the student data
     serializer = StudentSerializer(student)
+
     # Return the serialized data as a JSON response
     return Response(serializer.data)
 
@@ -36,8 +37,8 @@ def login_view(request):
                     request, roll_number=roll_number, password=password)
 
                 if user is not None:
-                    # login(request, user,
-                    #       backend='college.auth_backends.StudentBackend')
+                    login(request, user,
+                          backend='college.auth_backends.StudentBackend')
                     refresh = RefreshToken.for_user(user)
                     access_token = str(refresh.access_token)
                     response_data = {
