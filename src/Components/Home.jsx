@@ -41,6 +41,7 @@ export default function Home() {
             <h2>
               Student Application
               <br /> Login Page
+              <p>here is a testing para</p>
             </h2>
             <p>Login from here to access.</p>
           </div>
