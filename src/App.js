@@ -14,6 +14,7 @@ import Student from "./Components/Student";
 function App() {
   return (
     <div className="App">
+      <div>oewiurss</div>
       <Routes>
         <Route path="/" element={<Navigate to="/student-login" />} />
         <Route path="/student-login/*" element={<Home />} />
