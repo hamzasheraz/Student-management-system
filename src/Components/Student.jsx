@@ -119,16 +119,14 @@ export default function Student() {
 
   useEffect(() => {
     // Check the login status when the component mounts
-    const studentLoginStatus = localStorage.getItem("studentLoginStatus");
+    const token = localStorage.getItem("accessToken");
 
-    if (studentLoginStatus === "true") {
-      // console.log(studentLoginStatus);
+    if (token) {
       // Redirect only if not already on the student profile page
       if (window.location.pathname !== "/dashboard/student-profile") {
         window.location = "/dashboard/student-profile";
       }
     } else {
-      // console.log(studentLoginStatus);
       // Redirect only if not already on the student login page
       if (window.location.pathname !== "/student-login") {
         window.location.href = "/student-login";

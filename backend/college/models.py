@@ -38,10 +38,10 @@ class Student(AbstractBaseUser):
     last_name = models.CharField(max_length=30)
     department = models.CharField(
         max_length=40, choices=DEPARTMENT_CHOICES, default='yet_to_be_registered')
-    batch = models.IntegerField(default=timezone.now().year)
+    batch = models.IntegerField(default=timezone.now().year, editable=False)
     blood_group = models.CharField(
         max_length=3, choices=BLOOD_GROUP_CHOICES, default='NAN')
-    cnic = models.CharField(max_length=15)
+    cnic = models.CharField(max_length=15, default='Not submitted yet')
     dob = models.DateField()
     mobile_number = models.CharField(max_length=15)
     nationality = models.CharField(
@@ -59,6 +59,8 @@ class Student(AbstractBaseUser):
             roll_number = f"{year_joined}L-{self.pk:04d}"
             self.roll_number = roll_number
             self.password = make_password(self.password)
+            super().save(*args, **kwargs)
+        else:
             super().save(*args, **kwargs)
 
     def __str__(self):

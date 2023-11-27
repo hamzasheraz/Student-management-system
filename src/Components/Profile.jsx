@@ -5,16 +5,33 @@ import axios from "axios";
 function Profile() {
   let apiKey = process.env.REACT_APP_API_KEY;
 
-  // useEffect(() => {
-  //   const continuous = async () => {
-  //     try {
-  //       let url = await axios.get(apiKey + "/quizes/");
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   continuous();
-  // }, []);
+  const token = localStorage.getItem("accessToken");
+
+  // Set the default authorization header for all axios requests
+  axios.defaults.headers.common["Authorization"] = `JWT ${token}`;
+
+  const [studentData1, setStudentData] = useState({});
+  const [academyData, setAcademyData] = useState({});
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Fetch student and academy data using the token
+    const fetchData = async () => {
+      try {
+        // Fetch student data
+        const studentResponse = await axios.get(apiKey + "/student-info");
+        setStudentData(studentResponse.data);
+        // console.log(studentData1);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [apiKey]);
+
   const studentData = {
     name: "John Doe",
     rollNumber: "123456",
@@ -41,7 +58,7 @@ function Profile() {
           {/* <div className="text" style={{ fontWeight: 'bolder' }}>
                     <i className="bx bx-home"></i>&nbsp;Student Home Page
                  </div> */}
-
+          {console.log(studentData1)}
           <div className="main-body">
             <div className="student-info">
               <h2>Academic Information</h2>

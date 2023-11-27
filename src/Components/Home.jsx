@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import "../style.css";
 import axios from "axios";
 import preloader from "./Preloaderr";
-import { useNavigate } from "react-router-dom";
 import Student from "./Student";
 
 export default function Home() {
   const [rollNum, setRollNum] = useState("");
   const [password, setpassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [islogin, setLogin] = useState(false);
 
   let apiKey = process.env.REACT_APP_API_KEY;
 
@@ -19,7 +19,10 @@ export default function Home() {
         .post(apiKey + "login/", { rollNum, password })
         .then((response) => {
           if (response.data.status) {
-            localStorage.setItem("studentLoginStatus", true);
+            // sessionStorage.setItem("studentLoginStatus", true);
+            const accessToken = response.data.access_token;
+            localStorage.setItem("accessToken", accessToken);
+            setLogin(true);
             window.location.href = "/dashboard";
           }
           /* set state true to show user dashboard*/

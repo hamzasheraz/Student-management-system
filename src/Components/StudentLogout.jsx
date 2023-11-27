@@ -2,10 +2,10 @@ import React from "react";
 import Preloaderr from "./Preloaderr";
 
 const StudentLogout = () => {
-  const studentLoginStatus = localStorage.getItem("studentLoginStatus");
-
-  if (studentLoginStatus === "true") {
-    localStorage.removeItem("studentLoginStatus");
+  const token = localStorage.getItem("accessToken");
+  console.log(token);
+  if (token) {
+    localStorage.removeItem("accessToken");
 
     window.location.href = "/student-login";
   }
