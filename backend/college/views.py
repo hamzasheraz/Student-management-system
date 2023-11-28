@@ -4,10 +4,43 @@ from .auth_backends import StudentBackend
 from django.http import JsonResponse
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
-from .serializers import StudentSerializer
+from .serializers import StudentSerializer, CourseSerializer, SubjectsSerializer
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 import json
+from rest_framework import status
+from .models import Course, Subjects
+
+
+@api_view(['GET', 'POST'])
+def subjects_info(request):
+    if request.method == "GET":
+        subjects = Subjects.objects.all()
+        serializer = SubjectsSerializer(subjects, many=True)
+        return Response(serializer.data)
+
+    elif request.method == "POST":
+        serializer = SubjectsSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+def get_course_info(request):
+    courses = Course.objects.all()
+    serializer = CourseSerializer(courses, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['POST'])
+def post_course_info(request):
+    serializer = CourseSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])

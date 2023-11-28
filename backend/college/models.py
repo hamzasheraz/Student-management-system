@@ -4,7 +4,27 @@ from django.utils import timezone
 from django.contrib.auth.hashers import make_password
 
 
+class Course(models.Model):
+    course_title = models.CharField(max_length=30, unique=True)
+    fee = models.PositiveIntegerField()
+
+    def __str__(self):
+        return self.course_title
+
+
+class Subjects(models.Model):
+    course = models.ForeignKey(
+        Course, related_name='subjects', on_delete=models.CASCADE)
+    subject = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.subject
+
+
 class Student(AbstractBaseUser):
+
+    course = models.ForeignKey(
+        Course, related_name='course_registered', on_delete=models.CASCADE, blank=True, null=True)
 
     BLOOD_GROUP_CHOICES = [
         ('A+', 'A+'),
@@ -19,9 +39,9 @@ class Student(AbstractBaseUser):
     ]
 
     DEPARTMENT_CHOICES = [
-        ('pre_engineering', 'Pre Engineering'),
-        ('medical', 'Medical'),
-        ('icom', 'I.Com'),
+        ('CS', 'CS'),
+        ('ELECTRICAL', 'ELECTRICAL'),
+        ('CIVIL', 'CIVIL'),
         ('yet_to_be_registered', 'Yet to be Registered'),
     ]
 
@@ -40,9 +60,10 @@ class Student(AbstractBaseUser):
     batch = models.IntegerField(default=timezone.now().year, editable=False)
     blood_group = models.CharField(
         max_length=3, choices=BLOOD_GROUP_CHOICES, default='NAN')
-    cnic = models.CharField(max_length=15, default='Not submitted yet')
+    cnic = models.CharField(
+        max_length=15, unique=True)
     dob = models.DateField()
-    mobile_number = models.CharField(max_length=15)
+    mobile_number = models.CharField(max_length=15, unique=True)
     nationality = models.CharField(
         max_length=15, choices=NATIONALITY_CHOICES, default='Pakistani')
 
@@ -60,6 +81,7 @@ class Student(AbstractBaseUser):
             self.password = make_password(self.password)
             super().save(*args, **kwargs)
         else:
+            self.password = make_password(self.password)
             super().save(*args, **kwargs)
 
     def __str__(self):

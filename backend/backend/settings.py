@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'college',
-    'rest_framework_simplejwt'
+    'rest_framework_simplejwt',
 ]
 
 REST_FRAMEWORK = {
@@ -63,7 +63,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
+    # 'college.middleware.ChangeUserModelMiddleware'
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -144,7 +144,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTHENTICATION_BACKENDS = [
     'college.auth_backends.StudentBackend', 'django.contrib.auth.backends.ModelBackend']
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://192.168.119.1:3000",
-]
+CORS_ALLOW_ALL_ORIGINS = True

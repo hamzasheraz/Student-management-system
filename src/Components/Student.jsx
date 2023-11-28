@@ -35,6 +35,7 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import axios from "axios";
 import StudentLogout from "./StudentLogout";
 // import Feedback from "./Feedback";
 
@@ -116,6 +117,15 @@ export default function Student() {
   const [desc, setDesc] = useState("");
   const navigate = useNavigate();
   const [isLoggedIn, setLoggedIn] = useState(false);
+
+  const token = localStorage.getItem("accessToken");
+
+  // Set the default authorization header for all axios requests
+  axios.defaults.headers.common["Authorization"] = `JWT ${token}`;
+
+  const [studentData, setStudentData] = useState({});
+  const [academyData, setAcademyData] = useState({});
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Check the login status when the component mounts
