@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-5@$qlwfjb@tk!i%of-f_c0udtk5q8601txl9-1h#yl*3lvd4u@
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["localhost:3000", "192.168.119.1", '127.0.0.1']
 
 
 # Application definition
@@ -37,10 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'corsheaders',
     'rest_framework',
     'college',
     'rest_framework_simplejwt',
+    'corsheaders',
 ]
 
 REST_FRAMEWORK = {
@@ -144,4 +144,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTHENTICATION_BACKENDS = [
     'college.auth_backends.StudentBackend', 'django.contrib.auth.backends.ModelBackend']
 
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # Frontend URL
+    "http://192.168.119.1:3000",
+]
