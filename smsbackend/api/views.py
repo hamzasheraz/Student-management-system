@@ -237,13 +237,13 @@ def getstudentmarks(request, rollno, testtype):
     student = Studentdata.objects.get(rollNumber=rollno)
     section = student.section
     print(section)
-    if section == 'SectionA':
+    if section == 'A':
         model = SectionA
         serializer_class = SectionASerializer
-    elif section == 'SectionB':
+    elif section == 'B':
         model = SectionB
         serializer_class = SectionBSerializer
-    elif section == 'SectionC':
+    elif section == 'C':
         model = SectionC
         serializer_class = SectionCSerializer
     else:
