@@ -118,10 +118,10 @@ export default function Student() {
   const navigate = useNavigate();
   const [isLoggedIn, setLoggedIn] = useState(false);
 
-  const token = localStorage.getItem("accessToken");
+  // const login = localStorage.getItem("login");
 
   // Set the default authorization header for all axios requests
-  axios.defaults.headers.common["Authorization"] = `JWT ${token}`;
+  // axios.defaults.headers.common["Authorization"] = `JWT ${token}`;
 
   const [studentData, setStudentData] = useState({});
   const [academyData, setAcademyData] = useState({});
@@ -129,7 +129,7 @@ export default function Student() {
 
   useEffect(() => {
     // Check the login status when the component mounts
-    const token = localStorage.getItem("accessToken");
+    const token = localStorage.getItem("login");
 
     if (token) {
       // Redirect only if not already on the student profile page

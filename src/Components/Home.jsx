@@ -10,18 +10,19 @@ export default function Home() {
   const [errorMessage, setErrorMessage] = useState("");
   const [islogin, setLogin] = useState(false);
 
-  let apiKey = process.env.REACT_APP_API_KEY;
+  // let apiKey = process.env.REACT_APP_API_KEY;
 
   const func = (event) => {
     event.preventDefault();
     if (rollNum && password) {
       axios
-        .post(apiKey + "login/", { rollNum, password })
+        .post("http://127.0.0.1:8000/api/student-login/", { rollNum, password })
         .then((response) => {
           if (response.data.status) {
             // sessionStorage.setItem("studentLoginStatus", true);
-            const accessToken = response.data.access_token;
-            localStorage.setItem("accessToken", accessToken);
+            // const accessToken = response.data.access_token;
+            localStorage.setItem("rollnumber", response.data.roll_number);
+            localStorage.setItem("login", true);
             setLogin(true);
             window.location.href = "/dashboard";
           }

@@ -2,12 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const CourseRegistration = () => {
-  const apiKey = process.env.REACT_APP_API_KEY;
-  const apiKeyCourseInfo = `${apiKey}course-info/`;
-  const apiKeyRegisterStudent = `${apiKey}register-student/`;
-  const apiKeyStudentInfo = `${apiKey}student-info/`;
-  const apiKeySubjectInfo = `${apiKey}subjects-info/`;
-
   const [selectedCourse, setSelectedCourse] = useState("");
   const [registrationMessage, setRegistrationMessage] = useState("");
   const [registered, setRegistered] = useState(false);
@@ -16,18 +10,21 @@ const CourseRegistration = () => {
   const [studentData, setStudentData] = useState({});
   const [subjects, setSubjects] = useState([]);
   const [courseTitle, setCourseTitle] = useState("");
+  const rollNumber = localStorage.getItem("rollnumber");
 
-  const token = localStorage.getItem("accessToken");
+  // const token = localStorage.getItem("accessToken");
 
-  // Set the default authorization header for all axios requests
-  axios.defaults.headers.common["Authorization"] = `JWT ${token}`;
+  // // Set the default authorization header for all axios requests
+  // axios.defaults.headers.common["Authorization"] = `JWT ${token}`;
 
   useEffect(() => {
     // Fetch student and academy data using the token
     const fetchData = async () => {
       try {
         // Fetch student data
-        const studentResponse = await axios.get(apiKeyStudentInfo);
+        const studentResponse = await axios.get(
+          `http://127.0.0.1:8000/api/studentsdata/${rollNumber}`
+        );
         setStudentData(studentResponse.data);
       } catch (error) {
         console.error("Error fetching student data:", error);
@@ -35,7 +32,7 @@ const CourseRegistration = () => {
     };
 
     fetchData();
-  }, [apiKeyStudentInfo]);
+  }, []);
 
   useEffect(() => {
     // Fetch courses from the backend only if the student has not registered for any course
@@ -43,7 +40,9 @@ const CourseRegistration = () => {
       const fetchCourseData = async () => {
         try {
           // Fetch course data
-          const courseInfoResponse = await axios.get(apiKeyCourseInfo);
+          const courseInfoResponse = await axios.get(
+            `http://127.0.0.1:8000/api/course-info`
+          );
           setCourses(courseInfoResponse.data);
         } catch (error) {
           console.error("Error fetching course data:", error);
@@ -52,7 +51,7 @@ const CourseRegistration = () => {
 
       fetchCourseData();
     }
-  }, [apiKeyCourseInfo, studentData.course]);
+  }, [studentData.course]);
 
   useEffect(() => {
     const fetchSubjects = async () => {
@@ -63,8 +62,9 @@ const CourseRegistration = () => {
           (course) => course.id === course_id
         )?.course_title;
         setCourseTitle(courseTitle);
-
-        const subjectInfo = await axios.get(apiKeySubjectInfo);
+        const subjectInfo = await axios.get(
+          `http://127.0.0.1:8000/api/subjects-info/${course_id}`
+        );
         setSubjects(subjectInfo.data); // Assuming subjectInfo has a data property
       } catch (error) {
         console.error("Error fetching subject data:", error);
@@ -74,7 +74,7 @@ const CourseRegistration = () => {
     if (registered || studentData.course) {
       fetchSubjects();
     }
-  }, [registered, studentData.course, courses, apiKeySubjectInfo]);
+  }, [registered, studentData.course, courses]);
 
   const handleRegistration = () => {
     if (!selectedCourse) {
@@ -82,7 +82,10 @@ const CourseRegistration = () => {
       return;
     } else {
       axios
-        .post(apiKeyRegisterStudent, { selectedCourse })
+        .post("http://127.0.0.1:8000/api/register-student/", {
+          selectedCourse,
+          rollNumber,
+        })
         .then((response) => {
           if (response.data) {
             setRegistrationMessage(

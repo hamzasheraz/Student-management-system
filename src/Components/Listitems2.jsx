@@ -24,10 +24,7 @@ export const mainListItems2 = (
       </ListItemButton>
     </Link> */}
 
-    <Link
-      to="/teacher/attendance"
-      style={{ textDecoration: "none", color: "inherit" }}
-    >
+    <Link to="attendance" style={{ textDecoration: "none", color: "inherit" }}>
       <ListItemButton>
         <ListItemIcon>
           <PieChartIcon />
@@ -36,10 +33,7 @@ export const mainListItems2 = (
       </ListItemButton>
     </Link>
 
-    <Link
-      to="/teacher/marks"
-      style={{ textDecoration: "none", color: "inherit" }}
-    >
+    <Link to="marks" style={{ textDecoration: "none", color: "inherit" }}>
       <ListItemButton>
         <ListItemIcon>
           <BarChartIcon />

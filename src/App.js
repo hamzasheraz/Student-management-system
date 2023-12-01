@@ -10,12 +10,20 @@ import TimeTable from "./Components/TimeTable";
 import FeeGeneration from "./Components/FeeGeneration";
 import StudentLogout from "./Components/StudentLogout";
 import Student from "./Components/Student";
+import Teachermarks from "./Components/Teachermarks";
+import Teacherattendance from "./Components/Teacherattendance";
+import Teacher from "./Components/Teacher";
 
 function App() {
   return (
     <div className="App">
       <Routes>
         <Route path="/" element={<Navigate to="/student-login" />} />
+        <Route path="/teacher-login" element={<TeacherLogin />} />
+        <Route path="/teacher/*" element={<Teacher />}>
+          <Route path="marks" element={<Teachermarks />} />
+          <Route path="attendance" element={<Teacherattendance />} />
+        </Route>
         <Route path="/student-login/*" element={<Home />} />
         <Route path="/dashboard/*" element={<Student />}>
           <Route path="student-profile" element={<Profile />} />

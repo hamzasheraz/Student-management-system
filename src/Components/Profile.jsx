@@ -3,12 +3,10 @@ import "../styleprofile.css";
 import axios from "axios";
 
 function Profile() {
-  let apiKey = process.env.REACT_APP_API_KEY;
+  // const token = localStorage.getItem("accessToken");
 
-  const token = localStorage.getItem("accessToken");
-
-  // Set the default authorization header for all axios requests
-  axios.defaults.headers.common["Authorization"] = `JWT ${token}`;
+  // // Set the default authorization header for all axios requests
+  // axios.defaults.headers.common["Authorization"] = `JWT ${token}`;
 
   const [studentData, setStudentData] = useState({});
   const [academyData, setAcademyData] = useState({});
@@ -16,14 +14,9 @@ function Profile() {
 
   useEffect(() => {
     // Fetch student and academy data using the token
-    const token1 = localStorage.getItem("accessToken");
+    const token1 = localStorage.getItem("login");
 
-    if (token1) {
-      // Redirect only if not already on the student profile page
-      if (window.location.pathname !== "/dashboard/student-profile") {
-        window.location = "/dashboard/student-profile";
-      }
-    } else {
+    if (!token1) {
       // Redirect only if not already on the student login page
       if (window.location.pathname !== "/student-login") {
         window.location.href = "/student-login";
@@ -33,7 +26,10 @@ function Profile() {
     const fetchData = async () => {
       try {
         // Fetch student data
-        const studentResponse = await axios.get(apiKey + "/student-info");
+        const rollNumber = localStorage.getItem("rollnumber");
+        const studentResponse = await axios.get(
+          `http://127.0.0.1:8000/api/studentsdata/${rollNumber}`
+        );
         setStudentData(studentResponse.data);
         // console.log(studentData1);
         setLoading(false);
@@ -44,7 +40,7 @@ function Profile() {
     };
 
     fetchData();
-  }, [apiKey]);
+  }, []);
 
   const Academy = {
     Name: "Kips",
@@ -63,17 +59,16 @@ function Profile() {
             <div className="student-info">
               <h2>Academic Information</h2>
               <div>
-                <strong>Name:</strong> {studentData.first_name}{" "}
-                {studentData.last_name}
+                <strong>Name:</strong> {studentData.name}
               </div>
               <div>
-                <strong>Roll Number:</strong> {studentData.roll_number}
+                <strong>Roll Number:</strong> {studentData.rollNumber}
               </div>
               <div>
                 <strong>Department:</strong> {studentData.department}
               </div>
               <div>
-                <strong>Batch:</strong> {studentData.batch}
+                <strong>Section:</strong> {studentData.section}
               </div>
               <div>
                 <strong>Email:</strong> {studentData.email}
@@ -81,7 +76,6 @@ function Profile() {
             </div>
           </div>
         </section>
-
         {/* academy info */}
         <section className="home-section">
           <div className="main-body">
@@ -95,7 +89,7 @@ function Profile() {
                 <strong>Department:</strong> {studentData.department}
               </div>
               <div>
-                <strong>Batch:</strong> {studentData.batch}
+                <strong>Section:</strong> {studentData.section}
               </div>
               <div>
                 <strong>Email:</strong> {Academy.email}
@@ -115,10 +109,10 @@ function Profile() {
               <h2>Personal Information</h2>
               <div>
                 <strong>Name:</strong>
-                {studentData.first_name} {studentData.last_name}
+                {studentData.name}
               </div>
               <div>
-                <strong>Blood group:</strong> {studentData.blood_group}
+                <strong>Blood group:</strong> {studentData.group}
               </div>
               <div>
                 <strong>Cnic:</strong> {studentData.cnic}
@@ -127,7 +121,7 @@ function Profile() {
                 <strong>DOB:</strong> {studentData.dob}
               </div>
               <div>
-                <strong>Mobile Number:</strong> {studentData.mobile_number}
+                <strong>Mobile Number:</strong> {studentData.MobileNo}
               </div>
               <div>
                 <strong>Nationality:</strong> {studentData.nationality}

@@ -92,17 +92,6 @@ export const secondaryListItems = (
       </ListItemButton>
     </Link>
     <Link
-      to="student-feedback"
-      style={{ textDecoration: "none", color: "inherit" }}
-    >
-      <ListItemButton>
-        <ListItemIcon>
-          <FeedbackIcon />
-        </ListItemIcon>
-        <ListItemText primary="Feedback" />
-      </ListItemButton>
-    </Link>
-    <Link
       to="student-logout"
       style={{ textDecoration: "none", color: "inherit" }}
     >

@@ -21,6 +21,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import { mainListItems2, secondaryListItems2 } from "./Listitems2";
 import { Route, Router, Routes } from "react-router-dom";
 import { Navigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
 function Copyright(props) {
   return (
@@ -161,13 +162,7 @@ export default function Teacher() {
         >
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            <Routes>
-              <Route path="/teacher/marks" element={<Teachermarks />} />
-              <Route
-                path="/teacher/attendance"
-                element={<Teacherattendance />}
-              />
-            </Routes>
+            <Outlet />
 
             {/* Add more routes for other pages */}
 

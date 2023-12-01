@@ -1,99 +1,134 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../stylemarks.css";
 
-const initialStudentData = {
-  sectionA: [
-    {
-      rollNo: "01",
-      name: "Ali",
-      subjects: {
-        English: 86,
-        Maths: 77,
-        Science: 87,
-        ComputerScience: 92,
-        SocialStudies: 95,
-      },
-    },
-    {
-      rollNo: "02",
-      name: "rafay",
-      subjects: {
-        English: 86,
-        Maths: 77,
-        Science: 87,
-        ComputerScience: 92,
-        SocialStudies: 95,
-      },
-    },
-    {
-      rollNo: "03",
-      name: "moiz",
-      subjects: {
-        English: 86,
-        Maths: 77,
-        Science: 87,
-        ComputerScience: 92,
-        SocialStudies: 95,
-      },
-    },
-
-    // Add more students for sectionA as needed
-  ],
-  sectionB: [
-    {
-      rollNo: "03",
-      name: "Shan",
-      subjects: {
-        English: 86,
-        Maths: 77,
-        Science: 87,
-        ComputerScience: 92,
-        SocialStudies: 95,
-      },
-    },
-    // Add more students for sectionB as needed
-  ],
-  sectionC: [
-    {
-      rollNo: "05",
-      name: "Zeeshan",
-      subjects: {
-        English: 86,
-        Maths: 77,
-        Science: 87,
-        ComputerScience: 92,
-        SocialStudies: 95,
-      },
-    },
-    // Add more students for sectionC as needed
-  ],
-};
-
 function Teachermarks() {
-  const [selectedSection, setSelectedSection] = useState("sectionA");
-  const [studentData, setStudentData] = useState(initialStudentData);
+  const [selectedSection, setSelectedSection] = useState("SectionA");
+  const [selectedTest, setSelectedTest] = useState("test1");
+  const [studentData, setStudentData] = useState(null);
+  const [subjects, setSubjects] = useState([]);
+  const sections = ["SectionA", "SectionB", "SectionC"];
+  const tests = ["test1", "test2", "finalExam"];
+
+  useEffect(() => {
+    getInitialData();
+  }, [selectedSection, selectedTest]);
+
+  useEffect(() => {
+    getInitialData();
+  }, []);
+
+  const getInitialData = async () => {
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:8000/api/studentsdata/${selectedSection}/${selectedTest}`
+      );
+      const data = await response.json();
+
+      // Extract subjects dynamically from the first student record
+      const firstStudent = data[0];
+      const subjectsList = firstStudent
+        ? Object.keys(firstStudent).filter(
+            (key) => key !== "id" && key !== "testtype" && key !== "rollno"
+          )
+        : [];
+
+      console.log(data);
+      setStudentData(data);
+      setSubjects(subjectsList);
+    } catch (error) {
+      console.error("Error fetching student data:", error);
+      // Handle the error (e.g., show an error message to the user)
+    }
+  };
 
   const handleSectionChange = (section) => {
     setSelectedSection(section);
   };
 
-  const handleMarksChange = (studentIndex, subject, value) => {
-    const updatedStudentData = { ...studentData };
-    updatedStudentData[selectedSection][studentIndex].subjects[subject] = value;
-    setStudentData(updatedStudentData);
+  const handleTestChange = (t) => {
+    setSelectedTest(t);
   };
 
-  const handleSaveMarks = () => {
-    // Add logic to save marks data (e.g., send to a server)
-    console.log(
-      `Marks data for ${selectedSection} saved:`,
-      studentData[selectedSection]
+  const handleMarksChange = (rollNo, test, subject, value) => {
+    const updatedStudentData = [...studentData];
+    const updatedStudentIndex = updatedStudentData.findIndex(
+      (student) => student.id === rollNo
     );
-    alert("Marks saved successfully!");
+
+    if (updatedStudentIndex !== -1) {
+      const updatedStudent = updatedStudentData[updatedStudentIndex];
+      updatedStudent[subject] = value;
+
+      setStudentData(updatedStudentData);
+    }
   };
 
-  // Get the subjects from the first student in the selected section
-  const subjects = Object.keys(studentData[selectedSection][0].subjects);
+  // const handleSaveMarksToBackend = async () => {
+  //   try {
+  //      console.log(studentData);
+  //      console.log(selectedSection);
+  //      console.log(selectedTest);
+  //     const response = await fetch(`/api/update_student_marks/${selectedSection}/${selectedTest}/`, {
+  //       method: 'PUT',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify(studentData),
+  //     });
+
+  //     if (response.ok) {
+  //       console.log('Marks saved successfully!');
+  //       alert('Marks saved successfully!');
+  //     } else {
+  //       console.error('Failed to save marks:', response.statusText);
+  //       alert('Failed to save marks. Please try again.');
+  //     }
+  //   } catch (error) {
+  //     console.error('Error saving marks:', error);
+  //     alert('An unexpected error occurred. Please try again.');
+  //   }
+  // };
+
+  // ... (previous code)
+
+  const handleSaveMarksToBackend = async () => {
+    try {
+      console.log(studentData);
+      console.log(selectedSection);
+      console.log(selectedTest);
+
+      // Iterate over each student and send individual requests
+      for (const student of studentData) {
+        const response = await fetch(
+          `/api/update_student_marks/${selectedSection}/${selectedTest}/${student.rollno}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(student),
+          }
+        );
+
+        if (!response.ok) {
+          console.error(
+            `Failed to save marks for student ${student.rollno}:`,
+            response.statusText
+          );
+          alert(
+            `Failed to save marks for student ${student.rollno}. Please try again.`
+          );
+          return; // Stop the loop on the first failure
+        }
+      }
+
+      console.log("All marks saved successfully!");
+      alert("All marks saved successfully!");
+    } catch (error) {
+      console.error("Error saving marks:", error);
+      alert("An unexpected error occurred. Please try again.");
+    }
+  };
 
   return (
     <>
@@ -105,43 +140,70 @@ function Teachermarks() {
             value={selectedSection}
             onChange={(e) => handleSectionChange(e.target.value)}
           >
-            <option value="sectionA">Section A</option>
-            <option value="sectionB">Section B</option>
-            <option value="sectionC">Section C</option>
+            {sections.map((section) => (
+              <option key={section} value={section}>
+                {section}
+              </option>
+            ))}
+          </select>
+
+          <select
+            id="test"
+            value={selectedTest}
+            onChange={(e) => handleTestChange(e.target.value)}
+          >
+            {tests.map((t) => (
+              <option key={t} value={t}>
+                {t}
+              </option>
+            ))}
           </select>
         </div>
         <table>
           <thead>
             <tr>
-              <th>Roll No.</th>
               <th>Name</th>
+
+              {/* Display dynamic subjects */}
               {subjects.map((subject) => (
-                <th key={subject}>{subject}</th>
+                <th key={subject}>{`${selectedTest} - ${subject}`}</th>
               ))}
             </tr>
           </thead>
+
           <tbody>
-            {studentData[selectedSection].map((student, index) => (
-              <tr key={index}>
-                <td>{student.rollNo}</td>
-                <td>{student.name}</td>
-                {subjects.map((subject) => (
-                  <td key={subject}>
-                    <input
-                      type="number"
-                      value={student.subjects[subject]}
-                      onChange={(e) =>
-                        handleMarksChange(index, subject, e.target.value)
-                      }
-                    />
-                  </td>
+            {studentData &&
+              studentData
+                .filter((student) => student.testtype === selectedTest)
+                .map((student, index) => (
+                  <tr key={index}>
+                    <td>{student.rollno}</td>
+                    {/* Display marks for each subject in the selected test */}
+                    {Object.keys(student).map(
+                      (subject) =>
+                        !["id", "testtype", "rollno"].includes(subject) && (
+                          <td key={subject}>
+                            <input
+                              type="number"
+                              value={student[subject]}
+                              onChange={(e) =>
+                                handleMarksChange(
+                                  student.id,
+                                  selectedTest,
+                                  subject,
+                                  e.target.value
+                                )
+                              }
+                            />
+                          </td>
+                        )
+                    )}
+                  </tr>
                 ))}
-              </tr>
-            ))}
           </tbody>
         </table>
         <div className="save-container">
-          <button onClick={handleSaveMarks}>Save Marks</button>
+          <button onClick={handleSaveMarksToBackend}>Save Marks</button>
         </div>
       </div>
     </>
