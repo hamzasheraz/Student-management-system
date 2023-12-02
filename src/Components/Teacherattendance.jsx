@@ -88,7 +88,7 @@ function Teacherattendance() {
         student.date = date;
         student.attendance = attendanceData[student.rollno].attendance;
         const response = await fetch(
-          `/api/updatestudentattendance/${selectedSection}/${student.rollno[0]}/${date}`,
+          `http://127.0.0.1:8000/api/updatestudentattendance/${selectedSection}/${student.rollno[0]}/${date}`,
           {
             method: "POST",
             headers: {
