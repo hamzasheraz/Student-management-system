@@ -237,27 +237,45 @@ def getstudentmarks(request, rollno, testtype):
     student = Studentdata.objects.get(rollNumber=rollno)
     section = student.section
     print(section)
-    if section == 'A':
+    if section == 'SectionA':
         model = SectionA
         serializer_class = SectionASerializer
-    elif section == 'B':
+    elif section == 'SectionB':
         model = SectionB
         serializer_class = SectionBSerializer
-    elif section == 'C':
+    elif section == 'SectionC':
         model = SectionC
         serializer_class = SectionCSerializer
     else:
-
         return Response({'error': 'Invalid section'}, status=status.HTTP_400_BAD_REQUEST)
 
-    print(model)
-    data = model.objects.filter(rollno=student.rollNumber, testtype=testtype)
+    try:
+        # Retrieve all rows with the given test type
+        students = model.objects.filter(testtype=testtype)
+        # serializeri = serializer_class(data=students, many=True)
+        # if serializeri.is_valid():
+        #     serializeri.save()
 
-    if not data:
-        return Response({'error': 'Section data not found'}, status=status.HTTP_404_NOT_FOUND)
+        print("Retrieved Data:", students)
+        if not students:
+            return Response({'error': 'Students not found'}, status=status.HTTP_404_NOT_FOUND)
 
-    else:
-        return Response(serializer_class(data, many=True).data, status=status.HTTP_200_OK)
+        print("Request Data:", request.data)
+        for student in students:
+            # Use serializer to validate and save each student
+            serializer = serializer_class(data=student, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+            else:
+                print(serializer.errors)  # Add this line for debugging
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        # Return the serialized data of all students
+        return Response(serializer_class(students, many=True).data, status=status.HTTP_200_OK)
+
+    except model.DoesNotExist:
+        print("hello3")
+        return Response({'error': 'Section not found'}, status=status.HTTP_404_NOT_FOUND)
 
 
 @api_view(['GET'])
