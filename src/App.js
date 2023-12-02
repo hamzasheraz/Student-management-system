@@ -13,16 +13,19 @@ import Student from "./Components/Student";
 import Teachermarks from "./Components/Teachermarks";
 import Teacherattendance from "./Components/Teacherattendance";
 import Teacher from "./Components/Teacher";
+import TeacherLogout from "./Components/TeacherLogout";
 
 function App() {
   return (
     <div className="App">
       <Routes>
         <Route path="/" element={<Navigate to="/student-login" />} />
+        <Route path="/teacher" element={<Navigate to="/teacher-login" />} />
         <Route path="/teacher-login" element={<TeacherLogin />} />
-        <Route path="/teacher/*" element={<Teacher />}>
+        <Route path="/teacher-dashboard/*" element={<Teacher />}>
           <Route path="marks" element={<Teachermarks />} />
           <Route path="attendance" element={<Teacherattendance />} />
+          <Route path="teacher-logout" element={<TeacherLogout />} />
         </Route>
         <Route path="/student-login/*" element={<Home />} />
         <Route path="/dashboard/*" element={<Student />}>

@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer
-from .models import Studentdata, SectionA, SectionB, SectionC, SectionAattendance, SectionBattendance, SectionCattendance, Course, Subjects
+from .models import Teacher, Studentdata, SectionA, SectionB, SectionC, SectionAattendance, SectionBattendance, SectionCattendance, Course, Subjects, TimeTable
 from rest_framework import serializers
 
 
@@ -54,4 +54,16 @@ class CourseSerializer(serializers.ModelSerializer):
 class SubjectsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subjects
+        fields = '__all__'
+
+
+class TimeTableSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TimeTable
+        fields = '__all__'
+
+
+class TeacherSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Teacher
         fields = '__all__'

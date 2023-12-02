@@ -20,6 +20,17 @@ class Subjects(models.Model):
         return self.subject
 
 
+class Teacher(models.Model):
+
+    name = models.TextField(null=False, blank=True)
+    section = models.CharField(null=True, blank=True, max_length=20)
+    username = models.TextField(unique=True)
+    password = models.TextField(null=False, blank=True, max_length=40)
+
+    def __str__(self):
+        return f'{self.username} - {self.section}'
+
+
 class Studentdata(models.Model):
     course = models.ForeignKey(
         Course, related_name='course_registered', on_delete=models.CASCADE, blank=True, null=True)
@@ -158,3 +169,32 @@ class SectionCattendance(models.Model):
 
     class Meta:
         unique_together = ['rollno', 'date']
+
+
+class TimeTable(models.Model):
+    DAYS_OF_WEEK = (
+        ('Monday', 'Monday'),
+        ('Tuesday', 'Tuesday'),
+        ('Wednesday', 'Wednesday'),
+        ('Thursday', 'Thursday'),
+        ('Friday', 'Friday'),
+        ('Saturday', 'Saturday'),
+    )
+
+    Sections = (
+        ('SectionA', 'SectionA'),
+        ('SectionB', 'SectionB'),
+        ('SectionC', 'SectionC'),
+    )
+
+    section = models.CharField(max_length=20, choices=Sections)
+    lecture_title = models.CharField(max_length=255)
+    lecturer = models.CharField(max_length=255)
+    duration = models.CharField(max_length=20)
+    day_of_week = models.CharField(max_length=10, choices=DAYS_OF_WEEK)
+
+    class Meta:
+        unique_together = ['section', 'lecture_title', 'day_of_week']
+
+    def __str__(self):
+        return f'{self.lecture_title} - {self.day_of_week} - {self.duration}'

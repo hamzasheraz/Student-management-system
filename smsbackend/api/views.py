@@ -8,8 +8,8 @@ from .serializers import StudentSerializer
 from rest_framework import status
 from .serializers import SectionASerializer, SectionBSerializer, SectionCSerializer
 from .models import SectionA, SectionB, SectionC
-from .models import SectionAattendance, SectionBattendance, SectionCattendance, Subjects, Course
-from .serializers import SectionAattendanceSerializer, SectionBattendanceSerializer, SectionCattendanceSerializer, CourseSerializer, SubjectsSerializer
+from .models import SectionAattendance, SectionBattendance, SectionCattendance, Subjects, Course, TimeTable, Teacher
+from .serializers import SectionAattendanceSerializer, SectionBattendanceSerializer, SectionCattendanceSerializer, CourseSerializer, SubjectsSerializer, TimeTableSerializer, TeacherSerializer
 from django.http import JsonResponse
 import logging
 import json
@@ -379,6 +379,40 @@ def student_login(request):
         # You may want to add additional checks or validations here
         response_data = {
             "roll_number": roll_number,
+            "status": True,
+        }
+        return JsonResponse(response_data, status=200)
+    else:
+        return JsonResponse({'error': 'Invalid credentials'}, status=401)
+
+
+@api_view(['GET'])
+def timetable(request, pk):
+    timetable = TimeTable.objects.filter(section=pk)
+    serializer = TimeTableSerializer(timetable, many=True)
+
+    return Response(serializer.data)
+
+
+@csrf_exempt
+@api_view(['POST'])
+def teacher_login(request):
+    # Ensure the request has JSON data
+    try:
+        data = json.loads(request.body)
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'Invalid JSON data'}, status=400)
+
+    # Retrieve the rollNumber and password from the JSON data
+    username = data.get('username')
+    password = data.get('password')
+
+    # Retrieve the student based on rollNumber
+    teacher = Teacher.objects.filter(username=username).first()
+
+    if teacher and password == teacher.password:
+        # You may want to add additional checks or validations here
+        response_data = {
             "status": True,
         }
         return JsonResponse(response_data, status=200)
