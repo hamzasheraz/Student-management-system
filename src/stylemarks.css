@@ -1,12 +1,57 @@
 /* stylemarks.css */
 
+.section-selector {
+  margin-bottom: 20px;
+}
+
+label {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+select {
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+select:hover {
+  border-color: #4caf50; /* Border color on hover */
+}
+
+select:focus {
+  border-color: #2196f3; /* Border color on focus */
+}
+
+/* Add some color animation */
+@keyframes colorChange {
+  0% {
+    background-color: #ffc107;
+  }
+  50% {
+    background-color: #ff5722;
+  }
+  100% {
+    background-color: #ffc107;
+  }
+}
+
+select:active {
+  animation: colorChange 1s infinite; /* Color animation on click */
+}
+
 .marks-container {
   margin-top: 20px;
   text-align: center;
-  padding: 100px;
+  padding: 20px; /* Adjusted padding */
   background-color: rgb(110, 125, 154); /* White background with 90% opacity */
   border-radius: 10px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  overflow-x: auto; /* Make the container scrollable if the content overflows */
 }
 
 .marks-container table {
@@ -18,6 +63,7 @@
 
 .marks-container th,
 .marks-container td {
+  color: #000000;
   padding: 12px;
   border: 1px solid #ddd;
   text-align: center;
@@ -52,4 +98,20 @@
 .marks-container td:nth-child(1) {
   font-weight: bold;
   color: #3498db;
+}
+
+.save-container {
+  margin-top: 20px;
+}
+
+button {
+  font-size: 1.5rem;
+  color: blue;
+  background-color: #2196f3;
+  text-shadow: 0 0 15px blue;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  transition: 0.5s;
+  z-index: 1;
 }

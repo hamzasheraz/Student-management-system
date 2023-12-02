@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import "../stylemarks.css";
+import React, { useEffect, useState } from 'react';
+import '../stylemarks.css';
 
 function Teachermarks() {
-  const [selectedSection, setSelectedSection] = useState("SectionA");
-  const [selectedTest, setSelectedTest] = useState("test1");
+  const [selectedSection, setSelectedSection] = useState('SectionA');
+  const [selectedTest, setSelectedTest] = useState('test1');
   const [studentData, setStudentData] = useState(null);
   const [subjects, setSubjects] = useState([]);
-  const sections = ["SectionA", "SectionB", "SectionC"];
+  const sections = ['SectionA', 'SectionB', 'SectionC'];
   const tests = ["test1", "test2", "finalExam"];
 
   useEffect(() => {
@@ -16,27 +16,24 @@ function Teachermarks() {
   useEffect(() => {
     getInitialData();
   }, []);
+  
 
   const getInitialData = async () => {
     try {
-      const response = await fetch(
-        `http://127.0.0.1:8000/api/studentsdata/${selectedSection}/${selectedTest}`
-      );
+      const response = await fetch(`http://127.0.0.1:8000/api/studentsdata/${selectedSection}/${selectedTest}`);
       const data = await response.json();
 
       // Extract subjects dynamically from the first student record
       const firstStudent = data[0];
       const subjectsList = firstStudent
-        ? Object.keys(firstStudent).filter(
-            (key) => key !== "id" && key !== "testtype" && key !== "rollno"
-          )
+        ? Object.keys(firstStudent).filter(key => key !== 'id' && key !== 'testtype' && key !== 'rollno')
         : [];
-
-      console.log(data);
+      
+        console.log(data);
       setStudentData(data);
       setSubjects(subjectsList);
     } catch (error) {
-      console.error("Error fetching student data:", error);
+      console.error('Error fetching student data:', error);
       // Handle the error (e.g., show an error message to the user)
     }
   };
@@ -51,17 +48,17 @@ function Teachermarks() {
 
   const handleMarksChange = (rollNo, test, subject, value) => {
     const updatedStudentData = [...studentData];
-    const updatedStudentIndex = updatedStudentData.findIndex(
-      (student) => student.id === rollNo
-    );
-
+    const updatedStudentIndex = updatedStudentData.findIndex((student) => student.id === rollNo);
+  
     if (updatedStudentIndex !== -1) {
       const updatedStudent = updatedStudentData[updatedStudentIndex];
       updatedStudent[subject] = value;
-
+  
       setStudentData(updatedStudentData);
     }
   };
+  
+  
 
   // const handleSaveMarksToBackend = async () => {
   //   try {
@@ -91,44 +88,38 @@ function Teachermarks() {
 
   // ... (previous code)
 
-  const handleSaveMarksToBackend = async () => {
-    try {
-      console.log(studentData);
-      console.log(selectedSection);
-      console.log(selectedTest);
+const handleSaveMarksToBackend = async () => {
+  try {
+    console.log(studentData);
+    console.log(selectedSection);
+    console.log(selectedTest);
 
-      // Iterate over each student and send individual requests
-      for (const student of studentData) {
-        const response = await fetch(
-          `/api/update_student_marks/${selectedSection}/${selectedTest}/${student.rollno}`,
-          {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(student),
-          }
-        );
+    // Iterate over each student and send individual requests
+    for (const student of studentData) {
+      const response = await fetch(`http://127.0.0.1:8000/api/update_student_marks/${selectedSection}/${selectedTest}/${student.rollno}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(student),
+      });
 
-        if (!response.ok) {
-          console.error(
-            `Failed to save marks for student ${student.rollno}:`,
-            response.statusText
-          );
-          alert(
-            `Failed to save marks for student ${student.rollno}. Please try again.`
-          );
-          return; // Stop the loop on the first failure
-        }
+      if (!response.ok) {
+        console.error(`Failed to save marks for student ${student.rollno}:`, response.statusText);
+        alert(`Failed to save marks for student ${student.rollno}. Please try again.`);
+        return; // Stop the loop on the first failure
       }
-
-      console.log("All marks saved successfully!");
-      alert("All marks saved successfully!");
-    } catch (error) {
-      console.error("Error saving marks:", error);
-      alert("An unexpected error occurred. Please try again.");
     }
-  };
+
+    console.log('All marks saved successfully!');
+    alert('All marks saved successfully!');
+  } catch (error) {
+    console.error('Error saving marks:', error);
+    alert('An unexpected error occurred. Please try again.');
+  }
+};
+
+
 
   return (
     <>
@@ -172,34 +163,28 @@ function Teachermarks() {
           </thead>
 
           <tbody>
-            {studentData &&
-              studentData
-                .filter((student) => student.testtype === selectedTest)
-                .map((student, index) => (
-                  <tr key={index}>
-                    <td>{student.rollno}</td>
-                    {/* Display marks for each subject in the selected test */}
-                    {Object.keys(student).map(
-                      (subject) =>
-                        !["id", "testtype", "rollno"].includes(subject) && (
-                          <td key={subject}>
-                            <input
-                              type="number"
-                              value={student[subject]}
-                              onChange={(e) =>
-                                handleMarksChange(
-                                  student.id,
-                                  selectedTest,
-                                  subject,
-                                  e.target.value
-                                )
-                              }
-                            />
-                          </td>
-                        )
-                    )}
-                  </tr>
-                ))}
+            {studentData&&studentData
+              .filter((student) => student.testtype === selectedTest)
+              .map((student, index) => (
+                <tr key={index}>
+                  <td>{student.rollno}</td>
+                  {/* Display marks for each subject in the selected test */}
+                  {Object.keys(student).map(
+                    (subject) =>
+                      !['id', 'testtype', 'rollno'].includes(subject) && (
+                        <td key={subject}>
+                          <input
+                            type="number"
+                            value={student[subject]}
+                            onChange={(e) =>
+                              handleMarksChange(student.id, selectedTest, subject, e.target.value)
+                            }
+                          />
+                        </td>
+                      )
+                  )}
+                </tr>
+              ))}
           </tbody>
         </table>
         <div className="save-container">
@@ -211,3 +196,4 @@ function Teachermarks() {
 }
 
 export default Teachermarks;
+

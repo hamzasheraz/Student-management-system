@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../style.css";
 import axios from "axios";
-import preloader from "./Preloaderr";
+// import preloader from "./Preloaderr";
 import Student from "./Student";
 
 export default function Home() {

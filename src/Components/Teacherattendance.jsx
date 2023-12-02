@@ -1,23 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import "../stylemarks.css";
 
 function getCurrentDate() {
   const today = new Date();
-  const dd = String(today.getDate()).padStart(2, "0");
-  const mm = String(today.getMonth() + 1).padStart(2, "0"); // January is 0!
+  const dd = String(today.getDate()).padStart(2, '0');
+  const mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
   const yyyy = today.getFullYear();
   return `${yyyy}-${mm}-${dd}`;
 }
 
 function Teacherattendance() {
   const [studentData, setStudentData] = useState([]);
-  const [selectedSection, setSelectedSection] = useState("SectionA");
-  const [attendanceData, setAttendanceData] = useState({});
-  const [message, setMessage] = useState("");
+  const [selectedSection, setSelectedSection] = useState('SectionA');
+  const [attendanceData, setAttendanceData] = useState({});  
+  const [message, setMessage] = useState('');
   const [date, setdate] = useState(null);
 
   useEffect(() => {
-    setMessage("");
+    setMessage('');
     getInitialData(selectedSection);
   }, [selectedSection]);
 
@@ -25,23 +25,18 @@ function Teacherattendance() {
     setSelectedSection(section);
     setdate(getCurrentDate);
     try {
-      const response = await fetch(
-        `http://127.0.0.1:8000/api/studentsattendancedata/${section}`
-      );
+      const response = await fetch(`http://127.0.0.1:8000/api/studentsattendancedata/${section}`);
       const data = await response.json();
       setStudentData(data);
-      console.log(data);
+      console.log(data)
       // Initialize attendance data with default values
       const initialAttendanceData = {};
       data.forEach((student) => {
-        initialAttendanceData[student.rollno] = {
-          attendance: "",
-          date: getCurrentDate(),
-        };
+        initialAttendanceData[student.rollno] = { attendance: '', date: getCurrentDate() };
       });
       setAttendanceData(initialAttendanceData);
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error('Error fetching data:', error);
     }
   };
 
@@ -55,63 +50,52 @@ function Teacherattendance() {
     if (updatedAttendanceData[rollNo]) {
       updatedAttendanceData[rollNo].attendance = value;
       for (const student of studentData) {
-        if (student.rollno === rollNo) {
-          student.attendance = value;
+        if(student.rollno===rollNo){
+          student.attendance=value;
         }
       }
 
       setMessage(`Attendance marked for ${rollNo} on ${getCurrentDate()}`);
       setAttendanceData(updatedAttendanceData);
-      console.log("Updated", updatedAttendanceData);
-      console.log(studentData);
+      console.log("Updated",updatedAttendanceData)
+      console.log(studentData)
     } else {
       console.error(`Attendance data for ${rollNo} not found.`);
     }
   };
 
   const handleSave = async () => {
-    let flag = true;
+    let flag=true;
     studentData.forEach((student) => {
-      if (attendanceData[student.rollno].attendance == "") {
-        alert("First mark attendance for all students");
-        flag = false;
+      if(attendanceData[student.rollno].attendance==''){
+           alert("First mark attendance for all students");
+           flag=false;
       }
     });
 
-    if (flag) {
-      console.log(
-        `Attendance data for ${selectedSection} saved:`,
-        attendanceData
-      );
-      let count = 0;
-      for (const student of studentData) {
-        student.date = date;
-        student.attendance = attendanceData[student.rollno].attendance;
-        const response = await fetch(
-          `/api/updatestudentattendance/${selectedSection}/${student.rollno[0]}/${date}`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(student),
-          }
-        );
-        if (!response.ok) {
-          console.error(
-            `Failed to save attendance for student ${student.rollno[0]}:`,
-            response.statusText
-          );
-          alert(
-            `Failed to save attendance for student ${student.rollno[0]}. Please try again.`
-          );
-          return; // Stop the loop on the first failure
-        }
+    if(flag){
+    console.log(`Attendance data for ${selectedSection} saved:`, attendanceData);
+    let count=0;
+    for (const student of studentData) {
+      student.date = date;
+      student.attendance=attendanceData[student.rollno].attendance
+      const response = await fetch(`http://127.0.0.1:8000/api/updatestudentattendance/${selectedSection}/${student.rollno[0]}/${date}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(student),
+      });
+      if (!response.ok) {
+        console.error(`Failed to save attendance for student ${student.rollno[0]}:`, response.statusText);
+        alert(`Failed to save attendance for student ${student.rollno[0]}. Please try again.`);
+        return; // Stop the loop on the first failure
       }
-
-      alert("Attendance saved successfully!");
     }
-  };
+    
+    
+    alert('Attendance saved successfully!');
+  }};
 
   return (
     <>
@@ -137,31 +121,25 @@ function Teacherattendance() {
               </tr>
             </thead>
             <tbody>
-              {studentData.map((student) => (
-                <tr key={student.rollno[0]}>
-                  <td>{student.rollno[0]}</td>
-                  <td>
-                    <select
-                      value={
-                        attendanceData[student.rollno[0]]?.attendance || ""
-                      }
-                      onChange={(e) =>
-                        handleAttendanceChange(
-                          student.rollno[0],
-                          e.target.value
-                        )
-                      }
-                    >
-                      <option value="">--Select--</option>
-                      <option value="present">Present</option>
-                      <option value="absent">Absent</option>
-                    </select>
-                    {attendanceData[student.rollno[0]]?.attendance && (
-                      <span className="message">{message}</span>
-                    )}
-                  </td>
-                </tr>
-              ))}
+            {studentData.map((student) => (
+  <tr key={student.rollno[0]}>
+    <td>{student.rollno[0]}</td>
+    <td>
+    <select
+  value={attendanceData[student.rollno[0]]?.attendance || ''}
+  onChange={(e) => handleAttendanceChange(student.rollno[0], e.target.value)}
+>
+  <option value="">--Select--</option>
+  <option value="present">Present</option>
+  <option value="absent">Absent</option>
+</select>
+{attendanceData[student.rollno[0]]?.attendance && (
+  <span className="message">{message}</span>
+)}
+
+    </td>
+  </tr>
+))}
             </tbody>
           </table>
         </div>

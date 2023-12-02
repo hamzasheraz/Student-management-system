@@ -1,5 +1,5 @@
 import React from "react";
-import Preloaderr from "./Preloaderr";
+// import Preloaderr from "./Preloaderr";
 
 const StudentLogout = () => {
   const token = localStorage.getItem("login");
@@ -10,7 +10,7 @@ const StudentLogout = () => {
   }
   return (
     <>
-      <Preloaderr />
+      {/* <Preloaderr /> */}
     </>
   );
 };
