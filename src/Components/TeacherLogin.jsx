@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../style.css";
 import axios from "axios";
+import Teacher from "./Teacher";
 
 export default function Home() {
   const [username, setUsername] = useState("");
@@ -22,8 +23,12 @@ export default function Home() {
           if (response.data.status) {
             // sessionStorage.setItem("studentLoginStatus", true);
             // const accessToken = response.data.access_token;
+
+            localStorage.setItem("section", response.data.section);
+            console.log(response.data.section);
             localStorage.setItem("login", true);
             setLogin(true);
+            // <Teacher section={response.data.section}/>
             window.location.href = "/teacher-dashboard";
           }
           /* set state true to show user dashboard*/

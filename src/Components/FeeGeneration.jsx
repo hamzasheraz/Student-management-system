@@ -84,24 +84,30 @@ const FeeGeneration = ({ rollnumber }) => {
       } catch (error) {
         console.log(error);
       }
-      if (studentData) {
-        try {
-          let response = await axios.get(
-            `http://127.0.0.1:8000/api/course-info/${studentData.course}`
-          );
-          setCourseData(response.data);
-        } catch (error) {
-          console.log(error);
-        }
-      }
     };
 
     getstudentdata();
-  }, [studentData]);
+  }, []);
+
+  useEffect(() => {
+    const fetchCourse = async () => {
+      try {
+        // if (studentData) {
+        //   const course_id = studentData.course;
+        //   console.log(course_id);
+        let response = await fetch(`http://127.0.0.1:8000/api/course-info`);
+        setCourseData(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchCourse();
+  }, []);
 
   return (
     <>
-      {console.log(studentData.course)}
+      {console.log(courseData)}
       <div className="fee-generation-container">
         <h2>Fee Generation</h2>
 

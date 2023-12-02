@@ -59,8 +59,16 @@ def subjects_info(request, pk):
 
 
 @api_view(['GET'])
-def get_course_info_id(request, pk):
-    courses = Course.objects.filter(id=0)
+def get_course_info_id(request):
+    try:
+        data = json.loads(request.body)
+    except json.JSONDecodeError:
+        print(request)
+        return JsonResponse({'error': 'Invalid JSON data'}, status=400)
+
+    course_id = data.get("course_id")
+    courses = Course.objects.filter(id=course_id)
+
     serializer = CourseSerializer(courses)
     return Response(serializer.data)
 
@@ -414,6 +422,7 @@ def teacher_login(request):
         # You may want to add additional checks or validations here
         response_data = {
             "status": True,
+            "section": teacher.section
         }
         return JsonResponse(response_data, status=200)
     else:

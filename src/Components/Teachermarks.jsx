@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../stylemarks.css";
 
 function Teachermarks() {
-  const [selectedSection, setSelectedSection] = useState("SectionA");
+  const [selectedSection, setSelectedSection] = useState("SectionB");
   const [selectedTest, setSelectedTest] = useState("test1");
   const [studentData, setStudentData] = useState(null);
   const [subjects, setSubjects] = useState([]);
@@ -11,16 +11,21 @@ function Teachermarks() {
 
   useEffect(() => {
     getInitialData();
-  }, [selectedSection, selectedTest]);
+  }, [selectedTest]);
 
   useEffect(() => {
     getInitialData();
   }, []);
 
+  const section = localStorage.getItem("section");
   const getInitialData = async () => {
     try {
+      const section = localStorage.getItem("section");
+      // setSelectedSection(section);
+      // console.log('section is',section)
+      // console.log("selected section is",selectedSection)
       const response = await fetch(
-        `http://127.0.0.1:8000/api/studentsdata/${selectedSection}/${selectedTest}`
+        `http://127.0.0.1:8000/api/studentsdata/${section}/${selectedTest}`
       );
       const data = await response.json();
 
@@ -68,7 +73,7 @@ function Teachermarks() {
   //      console.log(studentData);
   //      console.log(selectedSection);
   //      console.log(selectedTest);
-  //     const response = await fetch(`/api/update_student_marks/${selectedSection}/${selectedTest}/`, {
+  //     const response = await fetch(/api/update_student_marks/${selectedSection}/${selectedTest}/, {
   //       method: 'PUT',
   //       headers: {
   //         'Content-Type': 'application/json',
@@ -96,11 +101,11 @@ function Teachermarks() {
       console.log(studentData);
       console.log(selectedSection);
       console.log(selectedTest);
-
+      const section = localStorage.getItem("section");
       // Iterate over each student and send individual requests
       for (const student of studentData) {
         const response = await fetch(
-          `/api/update_student_marks/${selectedSection}/${selectedTest}/${student.rollno}`,
+          `http://127.0.0.1:8000/api/update_student_marks/${section}/${selectedTest}/${student.rollno}`,
           {
             method: "PUT",
             headers: {
@@ -135,17 +140,14 @@ function Teachermarks() {
       <div className="marks-container">
         <div className="section-selector">
           <label htmlFor="section">Select Section: </label>
-          <select
+          {/* <select
             id="section"
             value={selectedSection}
             onChange={(e) => handleSectionChange(e.target.value)}
           >
-            {sections.map((section) => (
-              <option key={section} value={section}>
-                {section}
-              </option>
-            ))}
-          </select>
+           
+           {section}
+          </select> */}
 
           <select
             id="test"

@@ -9,7 +9,7 @@ urlpatterns = [
     path('register-student/', views.register_student_for_course,
          name='register_course_student'),
     path("course-info/", views.get_course_info, name="courseinfo"),
-    path("course-info/<str:pk>", views.get_course_info_id, name="coursesinfo"),
+    path("courses-info/", views.get_course_info_id, name="coursesinfo"),
     path('subjects-info/<str:pk>/', views.subjects_info, name='post_subjects_info'),
     path('', views.getRoutes, name="routes"),
     path('studentsdata/', views.getstudentsdata, name="studentsdata"),
