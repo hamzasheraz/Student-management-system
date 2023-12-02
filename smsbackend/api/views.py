@@ -60,9 +60,9 @@ def subjects_info(request, pk):
 
 @api_view(['GET'])
 def get_course_info_id(request, pk):
-    # course = Course.objects.filter(id=pk)
-    # serializer = CourseSerializer(course, many=False)
-    return Response('sd')
+    courses = Course.objects.filter(id=0)
+    serializer = CourseSerializer(courses)
+    return Response(serializer.data)
 
 
 @api_view(['GET'])

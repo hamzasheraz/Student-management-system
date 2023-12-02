@@ -70,22 +70,38 @@ const generateFeePDF = (studentData) => (
 const FeeGeneration = ({ rollnumber }) => {
   let [studentData, setstudentData] = useState([]);
   let [courseData, setCourseData] = useState([]);
+
   useEffect(() => {
+    const roll_number = localStorage.getItem("rollnumber");
+
+    let getstudentdata = async () => {
+      try {
+        let data = await fetch(
+          `http://127.0.0.1:8000/api/studentsdata/${roll_number}`
+        );
+        let d = await data.json();
+        setstudentData(d);
+      } catch (error) {
+        console.log(error);
+      }
+      if (studentData) {
+        try {
+          let response = await axios.get(
+            `http://127.0.0.1:8000/api/course-info/${studentData.course}`
+          );
+          setCourseData(response.data);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
+
     getstudentdata();
-  }, []);
-
-  const roll_number = localStorage.getItem("rollnumber");
-
-  let getstudentdata = async () => {
-    let data = await fetch(
-      `http://127.0.0.1:8000/api/studentsdata/${roll_number}`
-    );
-    let d = await data.json();
-    setstudentData(d);
-  };
+  }, [studentData]);
 
   return (
     <>
+      {console.log(studentData.course)}
       <div className="fee-generation-container">
         <h2>Fee Generation</h2>
 
