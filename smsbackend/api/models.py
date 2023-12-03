@@ -3,6 +3,11 @@ from django.utils import timezone
 from django.contrib.auth.hashers import make_password
 
 
+class Person(models.Model):
+    class Meta:
+        abstract = True
+
+
 class Course(models.Model):
     course_title = models.CharField(max_length=30, unique=True)
     fee = models.PositiveIntegerField()
@@ -29,7 +34,7 @@ class Subjects(models.Model):
         return self.subject
 
 
-class Teacher(models.Model):
+class Teacher(Person):
 
     name = models.TextField(null=False, blank=True)
     section = models.CharField(null=True, blank=True, max_length=20)
@@ -52,7 +57,7 @@ class Teacher(models.Model):
         return f'{self.username} - {self.section}'
 
 
-class Studentdata(models.Model):
+class Studentdata(Person):
     course = models.ForeignKey(
         Course, related_name='course_registered', on_delete=models.CASCADE, blank=True, null=True)
     name = models.TextField(null=False, blank=True)
