@@ -147,14 +147,25 @@ export default function Student() {
   const [openn, setOpenn] = React.useState(false);
 
   const handleClose = () => setOpenn(false);
+
+  useEffect(() => {
+    getnotifydata();
+  }, [openn]);
   const handleOpen = () => {
     setOpenn(true);
     //loadList();
   };
+  const [notificationData, setNotificationData] = useState([]);
+  const getnotifydata = async () => {
+    const rollnumber = localStorage.getItem("rollnumber");
+    const cleanedRollNumber = rollnumber.replace(/\D/g, ""); // Remove non-numeric characters
+    const response = await fetch(
+      `http://127.0.0.1:8000/api/displaynotifications/${cleanedRollNumber}`
+    );
+    const data = await response.json();
+    console.log(data);
 
-  const sample_data = {
-    Teacher: "Nauman",
-    Message: "Ajao kamry",
+    setNotificationData(data);
   };
 
   return (
@@ -210,7 +221,7 @@ export default function Student() {
                             <TableHead>
                               <TableRow>
                                 <TableCell component="th">
-                                  <b>Teacher Name</b>
+                                  <b>Student Rollnumber</b>
                                 </TableCell>
                                 <TableCell component="th">
                                   <b>Message</b>
@@ -218,17 +229,25 @@ export default function Student() {
                               </TableRow>
                             </TableHead>
                             <TableBody>
-                              {/* {loadData.map((row) => ( */}
-                              <TableRow
-                              // style={{
-                              //   backgroundColor:
-                              //     row.status == "0" ? "#ccffcc" : "white",
-                              // }}
-                              >
-                                <TableCell> {sample_data.Teacher} </TableCell>
-                                <TableCell>{sample_data.Message}</TableCell>
-                              </TableRow>
-                              {/* ))} */}
+                              {notificationData &&
+                              notificationData.length > 0 ? (
+                                notificationData.map((notification) => (
+                                  <TableRow key={notification.id}>
+                                    <TableCell>
+                                      {notification.roll_number}
+                                    </TableCell>
+                                    <TableCell>
+                                      {notification.notification_text}
+                                    </TableCell>
+                                  </TableRow>
+                                ))
+                              ) : (
+                                <TableRow>
+                                  <TableCell colSpan={2}>
+                                    No notifications found
+                                  </TableCell>
+                                </TableRow>
+                              )}
                             </TableBody>
                           </Table>
                         </TableContainer>

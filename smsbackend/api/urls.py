@@ -11,7 +11,6 @@ urlpatterns = [
     path("course-info/", views.get_course_info, name="courseinfo"),
     path("courses-info/", views.get_course_info_id, name="coursesinfo"),
     path('subjects-info/<str:pk>/', views.subjects_info, name='post_subjects_info'),
-    path('', views.getRoutes, name="routes"),
     path('studentsdata/', views.getstudentsdata, name="studentsdata"),
     path('studentsdata/<str:pk>/', views.getstudentdata, name="studentsdata"),
     path('studentsdata/<str:section>/<str:testtype>',
@@ -26,5 +25,8 @@ urlpatterns = [
          views.updatestudentattendance, name="updatestudentattendance"),
     path('displaystudentattendance/<str:rollno>',
          views.displaystudentattendance, name="displaystudentattendance"),
+     path('displaynotifications/<str:rollno>',
+         views.getnotifications, name="displaynotifications"),
+     
 
 ]
