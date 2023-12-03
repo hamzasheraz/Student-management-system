@@ -407,7 +407,8 @@ def teacher_login(request):
         # You may want to add additional checks or validations here
         response_data = {
             "status": True,
-            "section": teacher.section
+            "section": teacher.section,
+            "username": teacher.username
         }
         return JsonResponse(response_data, status=200)
     else:
@@ -432,3 +433,55 @@ def get_course_info_id(request):
         "fee": course.fee
     }
     return Response(response_data, status=200)
+
+
+@api_view(['POST'])
+def student_edit(request):
+    try:
+        data = json.loads(request.body)
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'Invalid JSON data'}, status=400)
+
+    name = data.get("name")
+    password = data.get("password")
+    rollNo = data.get("rollNo")
+
+    student = Studentdata.objects.get(rollNumber=rollNo)
+
+    try:
+        # Update the student's course
+        student.name = name
+        student.password = password
+        student.save()
+
+        # You can customize the response based on your requirements
+        return Response({'success': True, 'message': 'Registration successful'}, status=status.HTTP_200_OK)
+
+    except Exception as e:
+        return Response({'success': False, 'message': 'Registration failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(['POST'])
+def teacher_edit(request):
+    try:
+        data = json.loads(request.body)
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'Invalid JSON data'}, status=400)
+
+    name = data.get("name")
+    password = data.get("password")
+    username = data.get("username")
+
+    teacher = Teacher.objects.get(username=username)
+
+    try:
+        # Update the student's course
+        teacher.name = name
+        teacher.password = password
+        teacher.save()
+
+        # You can customize the response based on your requirements
+        return Response({'success': True, 'message': 'Registration successful'}, status=status.HTTP_200_OK)
+
+    except Exception as e:
+        return Response({'success': False, 'message': 'Registration failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

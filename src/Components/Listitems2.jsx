@@ -3,15 +3,12 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import ListSubheader from "@mui/material/ListSubheader";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
-import PaymentIcon from "@mui/icons-material/Payment";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import PieChartIcon from "@mui/icons-material/PieChart";
 import AssignmentIcon from "@mui/icons-material/Assignment";
-import ViewTimelineIcon from "@mui/icons-material/ViewTimeline";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Link } from "react-router-dom";
+import EditIcon from "@mui/icons-material/Edit";
 
 export const mainListItems2 = (
   <React.Fragment>
@@ -55,13 +52,17 @@ export const mainListItems2 = (
 
 export const secondaryListItems2 = (
   <React.Fragment>
-    <ListSubheader component="div" inset></ListSubheader>
-    <ListItemButton>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Last quarter" />
-    </ListItemButton>
+    <Link
+      to="teacher-profile-edit"
+      style={{ textDecoration: "none", color: "inherit" }}
+    >
+      <ListItemButton>
+        <ListItemIcon>
+          <EditIcon />
+        </ListItemIcon>
+        <ListItemText primary="Edit Profile" />
+      </ListItemButton>
+    </Link>
     <Link
       to="teacher-logout"
       style={{ textDecoration: "none", color: "inherit" }}

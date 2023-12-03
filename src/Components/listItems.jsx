@@ -11,7 +11,7 @@ import PieChartIcon from "@mui/icons-material/PieChart";
 import ViewTimelineIcon from "@mui/icons-material/ViewTimeline";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Link } from "react-router-dom";
-import FeedbackIcon from "@mui/icons-material/Feedback";
+import EditIcon from "@mui/icons-material/Edit";
 
 export const mainListItems = (
   <React.Fragment>
@@ -89,6 +89,17 @@ export const secondaryListItems = (
           <PaymentIcon />
         </ListItemIcon>
         <ListItemText primary="Fee Payment" />
+      </ListItemButton>
+    </Link>
+    <Link
+      to="student-profile-edit"
+      style={{ textDecoration: "none", color: "inherit" }}
+    >
+      <ListItemButton>
+        <ListItemIcon>
+          <EditIcon />
+        </ListItemIcon>
+        <ListItemText primary="Edit Profile" />
       </ListItemButton>
     </Link>
     <Link

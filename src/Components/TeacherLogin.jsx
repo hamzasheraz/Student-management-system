@@ -23,7 +23,7 @@ export default function Home() {
           if (response.data.status) {
             // sessionStorage.setItem("studentLoginStatus", true);
             // const accessToken = response.data.access_token;
-
+            localStorage.setItem("username", response.data.username);
             localStorage.setItem("section", response.data.section);
             console.log(response.data.section);
             localStorage.setItem("login", true);

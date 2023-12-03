@@ -14,6 +14,8 @@ import Teachermarks from "./Components/Teachermarks";
 import Teacherattendance from "./Components/Teacherattendance";
 import Teacher from "./Components/Teacher";
 import TeacherLogout from "./Components/TeacherLogout";
+import StudentProfileEdit from "./Components/StudentProfileEdit";
+import TeacherProfileEdit from "./Components/TeacherProfileEdit";
 
 function App() {
   return (
@@ -26,10 +28,12 @@ function App() {
           <Route path="marks" element={<Teachermarks />} />
           <Route path="attendance" element={<Teacherattendance />} />
           <Route path="teacher-logout" element={<TeacherLogout />} />
+          <Route path="teacher-profile-edit" element={<TeacherProfileEdit />} />
         </Route>
         <Route path="/student-login/*" element={<Home />} />
         <Route path="/dashboard/*" element={<Student />}>
           <Route path="student-profile" element={<Profile />} />
+          <Route path="student-profile-edit" element={<StudentProfileEdit />} />
           <Route path="student-fee-payment" element={<FeeGeneration />} />
           <Route
             path="student-course-registeration"
