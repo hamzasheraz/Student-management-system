@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # 'twilio',
     # 'twilioapi',
+    'django_twilio',
     'api.apps.ApiConfig',
     'rest_framework',
     "corsheaders",
