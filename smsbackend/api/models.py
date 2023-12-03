@@ -4,8 +4,9 @@ from django.contrib.auth.hashers import make_password
 
 
 class Person(models.Model):
-    class Meta:
-        abstract = True
+    names = models.TextField(null=False, blank=True)
+    sections = models.CharField(null=True, blank=True, max_length=20)
+    passwords = models.TextField(null=False, blank=True, max_length=40)
 
 
 class Course(models.Model):
