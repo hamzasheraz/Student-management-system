@@ -6,8 +6,8 @@ from rest_framework.decorators import api_view
 from .models import Studentdata
 from .serializers import StudentSerializer
 from rest_framework import status
-from .serializers import SectionASerializer, SectionBSerializer, SectionCSerializer
-from .models import SectionA, SectionB, SectionC
+from .serializers import SectionASerializer, SectionBSerializer, SectionCSerializer, NotificationSerializer
+from .models import SectionA, SectionB, SectionC, Notification
 from .models import SectionAattendance, SectionBattendance, SectionCattendance, Subjects, Course, TimeTable, Teacher
 from .serializers import SectionAattendanceSerializer, SectionBattendanceSerializer, SectionCattendanceSerializer, CourseSerializer, SubjectsSerializer, TimeTableSerializer, TeacherSerializer
 from django.http import JsonResponse
@@ -16,6 +16,17 @@ import json
 from django.contrib.auth.hashers import check_password
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.permissions import IsAuthenticated
+from twilio.rest import Client
+
+
+@api_view(['GET'])
+def getnotifications(request, rollno):
+    data = Notification.objects.filter(roll_number=rollno)
+    if not data:
+        return Response({'error': 'Notification data not found'}, status=status.HTTP_404_NOT_FOUND)
+
+    else:
+        return Response(NotificationSerializer(data, many=True).data, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
@@ -75,43 +86,6 @@ def post_course_info(request):
 
 
 @api_view(['GET'])
-def getRoutes(request):
-    routes = [
-        {
-            'Endpoint': '/notes/',
-            'method': 'GET',
-            'body': None,
-            'description': 'Returns an array of notes'
-        },
-        {
-            'Endpoint': '/notes/id',
-            'method': 'GET',
-            'body': None,
-            'description': 'Returns a single note object'
-        },
-        {
-            'Endpoint': '/notes/create/',
-            'method': 'POST',
-            'body': {'body': ""},
-            'description': 'Creates new note with data sent in post request'
-        },
-        {
-            'Endpoint': '/notes/id/update/',
-            'method': 'PUT',
-            'body': {'body': ""},
-            'description': 'Creates an existing note with data sent in post request'
-        },
-        {
-            'Endpoint': '/notes/id/delete/',
-            'method': 'DELETE',
-            'body': None,
-            'description': 'Deletes and exiting note'
-        },
-    ]
-    return Response(routes)
-
-
-@api_view(['GET'])
 def getstudentsdata(request):
     data = Studentdata.objects.all()
     serializer = StudentSerializer(data, many=True)
@@ -123,6 +97,40 @@ def getstudentdata(request, pk):
     data = Studentdata.objects.get(rollNumber=pk)
     serializer = StudentSerializer(data, many=False)
     return Response(serializer.data)
+
+
+# @api_view(['PUT'])
+# def update_student_marks(request, section, testtype, rollno):
+#     # Determine the model and serializer based on the section
+#     if section == 'SectionA':
+#         model = SectionA
+#         serializer_class = SectionASerializer
+#     elif section == 'SectionB':
+#         model = SectionB
+#         serializer_class = SectionBSerializer
+#     elif section == 'SectionC':
+#         model = SectionC
+#         serializer_class = SectionCSerializer
+#     else:
+#         return Response({'error': 'Invalid section'}, status=status.HTTP_400_BAD_REQUEST)
+
+#     try:
+#         # Retrieve the specific student with the given rollno and testtype
+#         student = model.objects.get(rollno=rollno, testtype=testtype)
+#         student2=Studentdata.objects.get(rollNumber=rollno)
+#         # Use serializer to update the student with the request data
+#         serializer = serializer_class(
+#             instance=student, data=request.data, partial=True)
+#         if serializer.is_valid():
+#             serializer.save()
+#             # Return the serialized data of the updated student
+#             return Response(serializer.data, status=status.HTTP_200_OK)
+#         else:
+#             print(serializer.errors)  # Add this line for debugging
+#             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+#     except model.DoesNotExist:
+#         return Response({'error': 'Student not found'}, status=status.HTTP_404_NOT_FOUND)
 
 
 @api_view(['PUT'])
@@ -143,61 +151,40 @@ def update_student_marks(request, section, testtype, rollno):
     try:
         # Retrieve the specific student with the given rollno and testtype
         student = model.objects.get(rollno=rollno, testtype=testtype)
+        student_data = Studentdata.objects.get(rollNumber=rollno)
 
         # Use serializer to update the student with the request data
         serializer = serializer_class(
             instance=student, data=request.data, partial=True)
+
         if serializer.is_valid():
             serializer.save()
+
+            # Check if a Notification object with the given roll number already exists
+            notification_obj, created = Notification.objects.get_or_create(
+                roll_number=student_data, testtype=testtype)
+
+            # Update the existing Notification object or create a new one
+            notification_data = {
+                'roll_number': student_data.pk,
+                'notification_text': f'Marks has been updated by your teacher of section {section} for {testtype}'
+            }
+            notification_serializer = NotificationSerializer(
+                instance=notification_obj, data=notification_data)
+            print("Notification k andar ja raha hun")
+            if notification_serializer.is_valid():
+                print("Notification was valid")
+                notification_serializer.save()
+            else:
+                print(notification_serializer.errors)
             # Return the serialized data of the updated student
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
-            print(serializer.errors)  # Add this line for debugging
+            print(serializer.errors)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     except model.DoesNotExist:
         return Response({'error': 'Student not found'}, status=status.HTTP_404_NOT_FOUND)
-# def update_student_marks(request, section, testtype,rollno):
-    # Determine the model and serializer based on the section
-    if section == 'SectionA':
-        model = SectionA
-        serializer_class = SectionASerializer
-    elif section == 'SectionB':
-        model = SectionB
-        serializer_class = SectionBSerializer
-    elif section == 'SectionC':
-        model = SectionC
-        serializer_class = SectionCSerializer
-    else:
-        return Response({'error': 'Invalid section'}, status=status.HTTP_400_BAD_REQUEST)
-
-    try:
-        # Retrieve all rows with the given test type
-        students = model.objects.filter(testtype=testtype)
-        # serializeri = serializer_class(data=students, many=True)
-        # if serializeri.is_valid():
-        #     serializeri.save()
-
-        print("Retrieved Data:", students)
-        if not students:
-            return Response({'error': 'Students not found'}, status=status.HTTP_404_NOT_FOUND)
-
-        print("Request Data:", request.data)
-        for student in students:
-            # Use serializer to validate and save each student
-            serializer = serializer_class(data=student, partial=True)
-            if serializer.is_valid():
-                serializer.save()
-            else:
-                print(serializer.errors)  # Add this line for debugging
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-        # Return the serialized data of all students
-        return Response(serializer_class(students, many=True).data, status=status.HTTP_200_OK)
-
-    except model.DoesNotExist:
-        print("hello3")
-        return Response({'error': 'Section not found'}, status=status.HTTP_404_NOT_FOUND)
 
 
 @api_view(['GET'])
@@ -255,17 +242,17 @@ def getstudentmarks(request, rollno, testtype):
 
 @api_view(['GET'])
 def getstudentattendance(request, section):
-    if section == 'SectionA':
-        model = SectionA
-    elif section == 'SectionB':
-        model = SectionB
-    elif section == 'SectionC':
-        model = SectionC
-    else:
-        return JsonResponse({'error': 'Invalid section'}, status=400)
+    # if section == 'SectionA':
+    #     model = SectionA
+    # elif section == 'SectionB':
+    #     model = SectionB
+    # elif section == 'SectionC':
+    #     model = SectionC
+    # else:
+    #     return JsonResponse({'error': 'Invalid section'}, status=400)
 
     # Retrieve unique roll numbers
-    u = model.objects.values_list('rollno').distinct()
+    u = Studentdata.objects.values_list('rollNumber').distinct()
 
     if not u:
         return JsonResponse({'error': 'Data not found'}, status=404)
@@ -296,6 +283,7 @@ def updatestudentattendance(request, section, rollno, date):
 
         try:
             student = model.objects.get(rollno=rollno, date=date)
+            student2 = Studentdata.objects.get(rollNumber=rollno)
         except model.DoesNotExist:
             student = None
 
@@ -317,6 +305,7 @@ def updatestudentattendance(request, section, rollno, date):
                 instance=student, data=request.data, partial=True)
             if serializer.is_valid():
                 serializer.save()
+                # send_message(section, rollno, date,student2.MobileNo)
                 return Response(serializer.data, status=status.HTTP_200_OK)
             else:
                 return JsonResponse({'error': 'Not updated correctly'}, status=400)
