@@ -59,21 +59,6 @@ def subjects_info(request, pk):
 
 
 @api_view(['GET'])
-def get_course_info_id(request):
-    try:
-        data = json.loads(request.body)
-    except json.JSONDecodeError:
-        print(request)
-        return JsonResponse({'error': 'Invalid JSON data'}, status=400)
-
-    course_id = data.get("course_id")
-    courses = Course.objects.filter(id=course_id)
-
-    serializer = CourseSerializer(courses)
-    return Response(serializer.data)
-
-
-@api_view(['GET'])
 def get_course_info(request):
     courses = Course.objects.all()
     serializer = CourseSerializer(courses, many=True)
@@ -427,3 +412,23 @@ def teacher_login(request):
         return JsonResponse(response_data, status=200)
     else:
         return JsonResponse({'error': 'Invalid credentials'}, status=401)
+
+
+@api_view(['POST'])
+def get_course_info_id(request):
+    try:
+        data = json.loads(request.body)
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'Invalid JSON data'}, status=400)
+
+    course_id = data.get("course_id")
+    try:
+        course = Course.objects.get(id=course_id)
+    except Course.DoesNotExist:
+        return JsonResponse({'error': 'Course not found'}, status=404)
+
+    response_data = {
+        "course_title": course.course_title,
+        "fee": course.fee
+    }
+    return Response(response_data, status=200)

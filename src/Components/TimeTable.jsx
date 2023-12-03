@@ -14,9 +14,6 @@ const TimeTable = () => {
           `http://127.0.0.1:8000/api/studentsdata/${rollNo}`
         );
         setStudentData(studentResponse.data);
-        // const response = await fetch("http://127.0.0.1:8000/api/timetable/<str:pk>");
-        // const data = await response.json();
-        // setTimetableData(data);
       } catch (error) {
         console.error("Error fetching timetable data:", error);
       }

@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const generateFeePDF = (studentData) => (
+const generateFeePDF = (studentData, courseData) => (
   <Document>
     <Page size="A4" style={styles.page}>
       <View style={styles.section}>
@@ -59,9 +59,9 @@ const generateFeePDF = (studentData) => (
         <Text style={styles.label}>{`Program:`}</Text>
         <Text style={styles.value}>{studentData.department}</Text>
         <Text style={styles.label}>{`Courses:`}</Text>
-        {/* <Text style={styles.value}>{studentData.courses.join(', ')}</Text> */}
+        <Text style={styles.value}>{courseData.course_title}</Text>
         <Text style={styles.label}>{`Total Fee:`}</Text>
-        <Text style={styles.value}>{`$${studentData.fee}`}</Text>
+        <Text style={styles.value}>{`$${courseData.fee}`}</Text>
       </View>
     </Page>
   </Document>
@@ -70,7 +70,6 @@ const generateFeePDF = (studentData) => (
 const FeeGeneration = ({ rollnumber }) => {
   let [studentData, setstudentData] = useState([]);
   let [courseData, setCourseData] = useState([]);
-
   useEffect(() => {
     const roll_number = localStorage.getItem("rollnumber");
 
@@ -91,32 +90,37 @@ const FeeGeneration = ({ rollnumber }) => {
 
   useEffect(() => {
     const fetchCourse = async () => {
-      try {
-        // if (studentData) {
-        //   const course_id = studentData.course;
-        //   console.log(course_id);
-        let response = await fetch(`http://127.0.0.1:8000/api/course-info`);
-        setCourseData(response.data);
-      } catch (error) {
-        console.log(error);
-      }
+      // if (studentData) {
+      const course_id = studentData.course;
+      //   console.log(course_id);
+      axios
+        .post("http://127.0.0.1:8000/api/courses-info/", {
+          course_id,
+        })
+        .then((response) => {
+          if (response.data) {
+            setCourseData(response.data);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     };
 
     fetchCourse();
-  }, []);
+  }, [studentData]);
 
   return (
     <>
-      {console.log(courseData)}
       <div className="fee-generation-container">
         <h2>Fee Generation</h2>
 
         <PDFViewer width="100%" height={500}>
-          {generateFeePDF(studentData)}
+          {generateFeePDF(studentData, courseData)}
         </PDFViewer>
 
         <PDFDownloadLink
-          document={generateFeePDF(studentData)}
+          document={generateFeePDF(studentData, courseData)}
           fileName="fee_voucher.pdf"
         >
           {({ blob, url, loading, error }) =>
