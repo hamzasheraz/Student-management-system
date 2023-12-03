@@ -16,7 +16,7 @@ import json
 from django.contrib.auth.hashers import check_password
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.permissions import IsAuthenticated
-from twilio.rest import Client
+# from twilio.rest import Client
 
 
 @api_view(['GET'])

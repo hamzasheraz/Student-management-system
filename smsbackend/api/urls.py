@@ -27,8 +27,8 @@ urlpatterns = [
          views.updatestudentattendance, name="updatestudentattendance"),
     path('displaystudentattendance/<str:rollno>',
          views.displaystudentattendance, name="displaystudentattendance"),
-     path('displaynotifications/<str:rollno>',
+    path('displaynotifications/<str:rollno>',
          views.getnotifications, name="displaynotifications"),
-     
+
 
 ]
