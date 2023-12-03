@@ -3,6 +3,11 @@ from django.utils import timezone
 from django.contrib.auth.hashers import make_password
 
 
+
+
+
+
+
 class Course(models.Model):
     course_title = models.CharField(max_length=30, unique=True)
     fee = models.PositiveIntegerField()
@@ -69,32 +74,6 @@ class Studentdata(models.Model):
     def __str__(self):
         return f'{self.rollNumber}'
 
-# Create your models here.
-
-
-# class test(models.Model):
-
-#     sectiontype=models.CharField(null=True,blank=True)
-#     rollno = models.ForeignKey(Studentdata.rollNumber, on_delete=models.CASCADE)
-
-#     def __str__(self):
-#        return self.name[0:50]
-
-
-# class test2(models.Model):
-#     sectiontype=models.CharField(null=True,blank=True)
-#     rollno = models.ForeignKey(Studentdata.rollNumber, on_delete=models.CASCADE)
-
-#     def __str__(self):
-#        return self.name[0:50]
-
-
-# class test3(models.Model):
-#     sectiontype=models.CharField(null=True,blank=True)
-#     rollno = models.ForeignKey(Studentdata.rollNumber, on_delete=models.CASCADE)
-
-#     def __str__(self):
-#        return self.name[0:50]
 
 class SectionA(models.Model):
     testtype = models.CharField(null=True, blank=True, max_length=30)
@@ -198,3 +177,12 @@ class TimeTable(models.Model):
 
     def __str__(self):
         return f'{self.lecture_title} - {self.day_of_week} - {self.duration}'
+
+
+class Notification(models.Model):
+    roll_number = models.ForeignKey(Studentdata, on_delete=models.CASCADE)
+    notification_text = models.TextField()
+    testtype = models.CharField(null=True, blank=True, max_length=30)
+
+    def __str__(self):
+        return f'Notification for {self.roll_number.rollNumber}'

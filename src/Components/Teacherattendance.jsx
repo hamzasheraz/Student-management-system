@@ -17,12 +17,13 @@ function Teacherattendance() {
   const [date, setdate] = useState(null);
 
   useEffect(() => {
+    getInitialData();
     setMessage("");
-    getInitialData(selectedSection);
-  }, [selectedSection]);
+  }, []);
 
-  const getInitialData = async (section) => {
-    setSelectedSection(section);
+  const getInitialData = async () => {
+    const section = localStorage.getItem("section");
+    console.log(section)
     setdate(getCurrentDate);
     try {
       const response = await fetch(
@@ -79,16 +80,14 @@ function Teacherattendance() {
     });
 
     if (flag) {
-      console.log(
-        `Attendance data for ${selectedSection} saved:`,
-        attendanceData
-      );
+      const section = localStorage.getItem("section");
+      console.log(`Attendance data for ${section} saved:`,attendanceData);
       let count = 0;
       for (const student of studentData) {
         student.date = date;
         student.attendance = attendanceData[student.rollno].attendance;
         const response = await fetch(
-          `http://127.0.0.1:8000/api/updatestudentattendance/${selectedSection}/${student.rollno[0]}/${date}`,
+          `http://127.0.0.1:8000/api/updatestudentattendance/${section}/${student.rollno[0]}/${date}`,
           {
             method: "POST",
             headers: {
@@ -117,8 +116,8 @@ function Teacherattendance() {
     <>
       <div className="marks-container">
         <div className="section-selector">
-          <label htmlFor="section">Select Section: </label>
-          <select
+          {/* <label htmlFor="section">Select Section: </label> */}
+          {/* <select
             id="section"
             value={selectedSection}
             onChange={(e) => handleSectionChange(e.target.value)}
@@ -126,7 +125,7 @@ function Teacherattendance() {
             <option value="SectionA">Section A</option>
             <option value="SectionB">Section B</option>
             <option value="SectionC">Section C</option>
-          </select>
+          </select> */}
         </div>
         <div className="attendance-container">
           <table>
