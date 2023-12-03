@@ -35,7 +35,7 @@ class Subjects(models.Model):
         return self.subject
 
 
-class Teacher(Person):
+class Teacher(models.Model):
 
     name = models.TextField(null=False, blank=True)
     section = models.CharField(null=True, blank=True, max_length=20)
@@ -58,7 +58,7 @@ class Teacher(Person):
         return f'{self.username} - {self.section}'
 
 
-class Studentdata(Person):
+class Studentdata(models.Model):
     course = models.ForeignKey(
         Course, related_name='course_registered', on_delete=models.CASCADE, blank=True, null=True)
     name = models.TextField(null=False, blank=True)
@@ -118,10 +118,11 @@ class Studentdata(Person):
                 self.rollNumber = rollNumber
 
                 # Check if password is not None before hashing
+                if self.password:
+                    self.password = make_password(self.password)
 
-            # self.password = make_password(self.password)
-
-            super().save(*args, **kwargs)
+                # Save the object after setting rollNumber and hashing password
+                super().save(*args, **kwargs)
 
         else:
             super().save(*args, **kwargs)
