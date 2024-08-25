@@ -32,7 +32,7 @@ const CourseRegistration = () => {
     };
 
     fetchData();
-  }, []);
+  }, [rollNumber]);
 
   useEffect(() => {
     // Fetch courses from the backend only if the student has not registered for any course

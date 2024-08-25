@@ -9,8 +9,8 @@ function Profile() {
   // axios.defaults.headers.common["Authorization"] = `JWT ${token}`;
 
   const [studentData, setStudentData] = useState({});
-  const [academyData, setAcademyData] = useState({});
-  const [loading, setLoading] = useState(true);
+  // const [academyData, setAcademyData] = useState({});
+  // const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Fetch student and academy data using the token
@@ -32,10 +32,10 @@ function Profile() {
         );
         setStudentData(studentResponse.data);
         // console.log(studentData1);
-        setLoading(false);
+        // setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
-        setLoading(false);
+        // setLoading(false);
       }
     };
 

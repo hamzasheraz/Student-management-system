@@ -2,22 +2,22 @@ import React, { useEffect, useState } from "react";
 import "../stylemarks.css";
 
 function Teachermarks() {
-  const [selectedSection, setSelectedSection] = useState("SectionB");
+  const selectedSection="SectionB";
   const [selectedTest, setSelectedTest] = useState("test1");
   const [studentData, setStudentData] = useState(null);
   const [subjects, setSubjects] = useState([]);
-  const sections = ["SectionA", "SectionB", "SectionC"];
+  // const sections = ["SectionA", "SectionB", "SectionC"];
   const tests = ["test1", "test2", "finalExam"];
 
   useEffect(() => {
     getInitialData();
-  }, [selectedTest]);
+  },);
 
   useEffect(() => {
     getInitialData();
-  },  getInitialData());
+  },);
 
-  const section = localStorage.getItem("section");
+  // const section = localStorage.getItem("section");
   const getInitialData = async () => {
     try {
       const section = localStorage.getItem("section");
@@ -46,9 +46,9 @@ function Teachermarks() {
     }
   };
 
-  const handleSectionChange = (section) => {
-    setSelectedSection(section);
-  };
+  // const handleSectionChange = (section) => {
+  //   setSelectedSection(section);
+  // };
 
   const handleTestChange = (t) => {
     setSelectedTest(t);

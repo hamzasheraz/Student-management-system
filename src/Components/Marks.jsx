@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "../stylemarks.css";
-import Navbar from "./navbar";
+// import Navbar from "./navbar";
 
-function Marks({ rollnumber }) {
+function Marks() {
   const tests = ["test1", "test2", "finalExam"];
   const [selectedTest, setSelectedTest] = useState("test1");
   const [marksData, setMarksData] = useState({});
@@ -10,7 +10,7 @@ function Marks({ rollnumber }) {
 
   useEffect(() => {
     getMarksData();
-  }, [selectedTest]);
+  },);
 
   const getMarksData = async () => {
     try {

@@ -18,15 +18,14 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { mainListItems, secondaryListItems } from "./listItems";
-import Profile from "./Profile";
-import Marks from "./Marks";
-import TimeTable from "./TimeTable";
-import FeeGeneration from "./FeeGeneration";
-import { Outlet, Route, Routes } from "react-router-dom";
-import { Navigate, useNavigate } from "react-router-dom";
-import Attendance from "./Attendance";
-import CourseRegistration from "./CourseRegistration";
-import Notifications from "./Notifications";
+// import Profile from "./Profile";
+// import Marks from "./Marks";
+// import TimeTable from "./TimeTable";
+// import FeeGeneration from "./FeeGeneration";
+import { Outlet} from "react-router-dom";
+// import Attendance from "./Attendance";
+// import CourseRegistration from "./CourseRegistration";
+// import Notifications from "./Notifications";
 import Modal from "@mui/material/Modal";
 import React, { useState, useEffect } from "react";
 import Table from "@mui/material/Table";
@@ -35,8 +34,8 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import axios from "axios";
-import StudentLogout from "./StudentLogout";
+// import axios from "axios";
+// import StudentLogout from "./StudentLogout";
 // import Feedback from "./Feedback";
 
 function Copyright(props) {
@@ -111,21 +110,21 @@ export default function Student() {
     setOpen(!open);
   };
 
-  const [getRows, setRows] = useState([]);
-  const [loadData, setData] = useState([]);
-  const [name, setName] = useState("");
-  const [desc, setDesc] = useState("");
-  const navigate = useNavigate();
-  const [isLoggedIn, setLoggedIn] = useState(false);
+  // const [getRows, setRows] = useState([]);
+  // const [loadData, setData] = useState([]);
+  // const [name, setName] = useState("");
+  // const [desc, setDesc] = useState("");
+  // const navigate = useNavigate();
+  // const [isLoggedIn, setLoggedIn] = useState(false);
 
   // const login = localStorage.getItem("login");
 
   // Set the default authorization header for all axios requests
   // axios.defaults.headers.common["Authorization"] = `JWT ${token}`;
 
-  const [studentData, setStudentData] = useState({});
-  const [academyData, setAcademyData] = useState({});
-  const [loading, setLoading] = useState(true);
+  // const [studentData, setStudentData] = useState({});
+  // const [academyData, setAcademyData] = useState({});
+  // const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Check the login status when the component mounts

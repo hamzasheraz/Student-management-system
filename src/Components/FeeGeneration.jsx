@@ -1,7 +1,6 @@
 // FeeGeneration.jsx
 
 import React, { useEffect, useState } from "react";
-import Navbar from "./navbar";
 import {
   PDFViewer,
   PDFDownloadLink,
@@ -67,7 +66,7 @@ const generateFeePDF = (studentData, courseData) => (
   </Document>
 );
 
-const FeeGeneration = ({ rollnumber }) => {
+const FeeGeneration = () => {
   let [studentData, setstudentData] = useState([]);
   let [courseData, setCourseData] = useState([]);
   useEffect(() => {
@@ -123,7 +122,7 @@ const FeeGeneration = ({ rollnumber }) => {
           document={generateFeePDF(studentData, courseData)}
           fileName="fee_voucher.pdf"
         >
-          {({ blob, url, loading, error }) =>
+          {({loading}) =>
             loading ? "Loading document..." : "Download Fee Voucher"
           }
         </PDFDownloadLink>

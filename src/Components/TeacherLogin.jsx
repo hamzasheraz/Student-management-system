@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import "../style.css";
 import axios from "axios";
-import Teacher from "./Teacher";
 
 export default function Home() {
   const [username, setUsername] = useState("");
   const [password, setpassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const [islogin, setLogin] = useState(false);
+  // const [islogin, setLogin] = useState(false);
 
   // let apiKey = process.env.REACT_APP_API_KEY;
 
@@ -27,7 +26,7 @@ export default function Home() {
             localStorage.setItem("section", response.data.section);
             console.log(response.data.section);
             localStorage.setItem("login", true);
-            setLogin(true);
+            // setLogin(true);
             // <Teacher section={response.data.section}/>
             window.location.href = "/teacher-dashboard";
           }

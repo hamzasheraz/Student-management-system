@@ -11,7 +11,7 @@ function getCurrentDate() {
 
 function Teacherattendance() {
   const [studentData, setStudentData] = useState([]);
-  const [selectedSection, setSelectedSection] = useState("SectionA");
+  // const [selectedSection, setSelectedSection] = useState("SectionA");
   const [attendanceData, setAttendanceData] = useState({});
   const [message, setMessage] = useState("");
   const [date, setdate] = useState(null);
@@ -46,9 +46,9 @@ function Teacherattendance() {
     }
   };
 
-  const handleSectionChange = (section) => {
-    setSelectedSection(section);
-  };
+  // const handleSectionChange = (section) => {
+  //   setSelectedSection(section);
+  // };
 
   const handleAttendanceChange = (rollNo, value) => {
     const updatedAttendanceData = { ...attendanceData };

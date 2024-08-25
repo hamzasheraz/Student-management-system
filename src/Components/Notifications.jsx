@@ -20,9 +20,9 @@ import Badge from "@mui/material/Badge";
 
 function Notifications() {
   const [getRows, setRows] = useState([]);
-  const [loadData, setData] = useState([]);
-  const [name, setName] = useState("");
-  const [desc, setDesc] = useState("");
+  // const [loadData, setData] = useState([]);
+  // const [name, setName] = useState("");
+  // const [desc, setDesc] = useState("");
 
   const [open, setOpen] = React.useState(false);
 

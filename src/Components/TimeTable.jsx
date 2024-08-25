@@ -3,7 +3,7 @@ import "../styletimetable.css";
 import axios from "axios";
 const TimeTable = () => {
   const [timetableData, setTimetableData] = useState([]);
-  const [studentData, setStudentData] = useState({});
+  // const [studentData, setStudentData] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
@@ -12,7 +12,7 @@ const TimeTable = () => {
         const studentResponse = await axios.get(
           `http://127.0.0.1:8000/api/studentsdata/${rollNo}`
         );
-        setStudentData(studentResponse.data);
+        // setStudentData(studentResponse.data);
 
         const timeResponse = await axios.get(
           `http://127.0.0.1:8000/api/view-timetable/${studentResponse.data.section}`

@@ -7,7 +7,7 @@ function Attendance() {
   const roll_number = localStorage.getItem("rollnumber");
   useEffect(() => {
     getinitialdata();
-  }, getinitialdata());
+  },);
 
   let getinitialdata = async () => {
     let data = await fetch(

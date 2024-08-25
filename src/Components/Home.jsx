@@ -2,13 +2,12 @@ import React, { useState } from "react";
 import "../style.css";
 import axios from "axios";
 // import preloader from "./Preloaderr";
-import Student from "./Student";
 
 export default function Home() {
   const [rollNum, setRollNum] = useState("");
   const [password, setpassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const [islogin, setLogin] = useState(false);
+  // const [islogin, setLogin] = useState(false);
 
   // let apiKey = process.env.REACT_APP_API_KEY;
 
@@ -23,7 +22,7 @@ export default function Home() {
             // const accessToken = response.data.access_token;
             localStorage.setItem("rollnumber", response.data.roll_number);
             localStorage.setItem("login", true);
-            setLogin(true);
+            // setLogin(true);
             window.location.href = "/dashboard";
           }
           /* set state true to show user dashboard*/
