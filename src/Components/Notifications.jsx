@@ -1,12 +1,8 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Box";
 import AppBar from "@mui/material/AppBar";
-import TextField from "@mui/material/TextField";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -16,13 +12,11 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 // or
 
-import MenuIcon from "@mui/icons-material/Menu";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import Paper from "@mui/material/Paper";
 import MenuItem from "@mui/material/MenuItem";
 import Modal from "@mui/material/Modal";
 import Badge from "@mui/material/Badge";
-// import MailIcon from '@mui/icons-material/Mail'
 
 function Notifications() {
   const [getRows, setRows] = useState([]);
@@ -42,22 +36,6 @@ function Notifications() {
     Teacher: "Nauman",
     Message: "Ajao kamry",
   };
-
-  //   const loadList = async () => {
-  //     const result = await axios.get("http://localhost:8000/api/list");
-  //     setData(result.data);
-  //   };
-  //   // To get total count from backend
-  //   const getLatestRowDetails = async () => {
-  //     const results = await axios.get("http://localhost:8000/api/getLatestRow");
-  //     setRows(results.data);
-  //   };
-
-  //   // Calling useEffect
-  //   useEffect(() => {
-  //     loadList();
-  //     getLatestRowDetails();
-  //   }, []);
 
   return (
     <div>

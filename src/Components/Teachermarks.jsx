@@ -15,7 +15,7 @@ function Teachermarks() {
 
   useEffect(() => {
     getInitialData();
-  }, []);
+  },  getInitialData());
 
   const section = localStorage.getItem("section");
   const getInitialData = async () => {

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../styletimetable.css";
 import axios from "axios";
-import { duration } from "@mui/material";
 const TimeTable = () => {
   const [timetableData, setTimetableData] = useState([]);
   const [studentData, setStudentData] = useState({});

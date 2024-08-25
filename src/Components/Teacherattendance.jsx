@@ -73,7 +73,7 @@ function Teacherattendance() {
   const handleSave = async () => {
     let flag = true;
     studentData.forEach((student) => {
-      if (attendanceData[student.rollno].attendance == "") {
+      if (attendanceData[student.rollno].attendance === "") {
         alert("First mark attendance for all students");
         flag = false;
       }
@@ -82,7 +82,6 @@ function Teacherattendance() {
     if (flag) {
       const section = localStorage.getItem("section");
       console.log(`Attendance data for ${section} saved:`,attendanceData);
-      let count = 0;
       for (const student of studentData) {
         student.date = date;
         student.attendance = attendanceData[student.rollno].attendance;

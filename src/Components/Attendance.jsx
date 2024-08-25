@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "./navbar";
 import "../styleattendance.css";
 
-function Attendance({ rollnumber }) {
+function Attendance() {
   // Default course
   let [studentAttendance, setstudentAttendance] = useState([]);
   const roll_number = localStorage.getItem("rollnumber");
   useEffect(() => {
     getinitialdata();
-  }, []);
+  }, getinitialdata());
 
   let getinitialdata = async () => {
     let data = await fetch(
