@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  django:
+    build:
+      context: ./smsbackend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./smsbackend:/app
+    depends_on:
+      - react
+
+  react:
+    build:
+      context: ./front-end
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./front-end:/app
+    environment:
+      - NODE_ENV=development
+    command: ["npm", "start"]
