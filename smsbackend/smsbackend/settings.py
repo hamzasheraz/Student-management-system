@@ -16,7 +16,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 CSRF_TRUSTED_ORIGINS = [
-    'localhost',]
+    'localhost','flex1-7tzwawqy.b4a.run']
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -28,8 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [ 'flex1-7tzwawqy.b4a.run',
     'localhost',
-    '127.0.0.1',
-    'flexmanagement-feyaty98.b4a.run']
+    '127.0.0.1',]
 
 
 # Application definition
