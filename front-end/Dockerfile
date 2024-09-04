@@ -1,14 +1,20 @@
-# Use the official Node.js image as the base image
-FROM node:20
+# Use the official Node.js image as the base image with the LTS version for stability
+FROM node:20-alpine
+
+# Set environment variable to increase Node.js memory limit
+ENV NODE_OPTIONS="--max-old-space-size=4096"
 
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy the application files into the working directory
-COPY . /app
+# Copy only package.json and package-lock.json to leverage Docker's caching mechanism
+COPY package*.json ./
 
 # Install the dependencies
-RUN npm install
+RUN npm install --frozen-lockfile --production
+
+# Copy the rest of the application files into the working directory
+COPY . .
 
 # Build the React app
 RUN npm run build
