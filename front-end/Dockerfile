@@ -1,5 +1,5 @@
-# Stage 1: Build the React app
-FROM node:20 as build
+# Use the official Node.js image as the base image with the LTS version for stability
+FROM node:20
 
 # Set environment variable to increase Node.js memory limit
 ENV NODE_OPTIONS="--max-old-space-size=4096"
@@ -19,15 +19,8 @@ COPY . .
 # Build the React app
 RUN npm run build
 
-# Stage 2: Serve the app
-FROM nginx:alpine
-
-# Copy the built app from the previous stage
-COPY --from=build /app/build /usr/share/nginx/html
-
 # Expose the port the app will run on
-EXPOSE 80
+EXPOSE 3000
 
-# Start Nginx
-CMD ["nginx", "-g", "daemon off;"]
-
+# Start the app
+CMD ["npm", "start"]
