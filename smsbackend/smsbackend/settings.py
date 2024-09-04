@@ -15,7 +15,7 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-CSRF_TRUSTED_ORIGINS = ['http://localhost:3000','https://flexmanagement-feyaty98.b4a.run','https://studentmanagementflex.netlify.app']
+CSRF_TRUSTED_ORIGINS = ['https://flexmanagement-feyaty98.b4a.run','https://studentmanagementflex.netlify.app']
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-fixopbwrpx$hfo81cg0i-38tz^zfq_e_ft0s8dss2d@)kn5$+9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['http://localhost:3000','https://flexmanagement-feyaty98.b4a.run','https://studentmanagementflex.netlify.app']
+ALLOWED_HOSTS = ['https://flexmanagement-feyaty98.b4a.run','https://studentmanagementflex.netlify.app']
 
 
 # Application definition
