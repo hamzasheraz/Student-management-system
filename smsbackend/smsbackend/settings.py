@@ -25,7 +25,10 @@ SECRET_KEY = 'django-insecure-fixopbwrpx$hfo81cg0i-38tz^zfq_e_ft0s8dss2d@)kn5$+9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://flexmanagement-feyaty98.b4a.run','https://studentmanagementflex.netlify.app']
+ALLOWED_HOSTS = [
+    'flexmanagement-feyaty98.b4a.run',
+    'studentmanagementflex.netlify.app',
+]
 
 
 # Application definition
