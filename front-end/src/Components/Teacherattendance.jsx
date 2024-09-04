@@ -27,7 +27,7 @@ function Teacherattendance() {
     setdate(getCurrentDate);
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/api/studentsattendancedata/${section}`
+        `https://flexmanagement-feyaty98.b4a.run/api/studentsattendancedata/${section}`
       );
       const data = await response.json();
       setStudentData(data);
@@ -86,7 +86,7 @@ function Teacherattendance() {
         student.date = date;
         student.attendance = attendanceData[student.rollno].attendance;
         const response = await fetch(
-          `http://127.0.0.1:8000/api/updatestudentattendance/${section}/${student.rollno[0]}/${date}`,
+          `https://flexmanagement-feyaty98.b4a.run/api/updatestudentattendance/${section}/${student.rollno[0]}/${date}`,
           {
             method: "POST",
             headers: {

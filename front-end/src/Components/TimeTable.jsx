@@ -10,12 +10,12 @@ const TimeTable = () => {
       try {
         const rollNo = localStorage.getItem("rollnumber");
         const studentResponse = await axios.get(
-          `http://127.0.0.1:8000/api/studentsdata/${rollNo}`
+          `https://flexmanagement-feyaty98.b4a.run/api/studentsdata/${rollNo}`
         );
         // setStudentData(studentResponse.data);
 
         const timeResponse = await axios.get(
-          `http://127.0.0.1:8000/api/view-timetable/${studentResponse.data.section}`
+          `https://flexmanagement-feyaty98.b4a.run/api/view-timetable/${studentResponse.data.section}`
         );
         setTimetableData(timeResponse.data);
       } catch (error) {

@@ -15,7 +15,7 @@ function Marks() {
   const getMarksData = async () => {
     try {
       const data = await fetch(
-        `http://127.0.0.1:8000/api/students2data/${rollNumber}/${selectedTest}`
+        `https://flexmanagement-feyaty98.b4a.run/api/students2data/${rollNumber}/${selectedTest}`
       );
       const resp = await data.json();
       console.log("got data after test", resp);

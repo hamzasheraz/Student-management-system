@@ -14,7 +14,7 @@ export default function Home() {
     event.preventDefault();
     if (username && password) {
       axios
-        .post("http://127.0.0.1:8000/api/teacher-login/", {
+        .post("https://flexmanagement-feyaty98.b4a.run/api/teacher-login/", {
           username,
           password,
         })

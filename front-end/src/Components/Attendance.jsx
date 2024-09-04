@@ -11,7 +11,7 @@ function Attendance() {
 
   let getinitialdata = async () => {
     let data = await fetch(
-      `http://127.0.0.1:8000/api/displaystudentattendance/${roll_number}`
+      `https://flexmanagement-feyaty98.b4a.run/api/displaystudentattendance/${roll_number}`
     );
     let data2 = await data.json();
     console.log(data2);

@@ -15,7 +15,7 @@ export default function Home() {
     event.preventDefault();
     if (rollNum && password) {
       axios
-        .post("http://127.0.0.1:8000/api/student-login/", { rollNum, password })
+        .post("https://flexmanagement-feyaty98.b4a.run/api/student-login/", { rollNum, password })
         .then((response) => {
           if (response.data.status) {
             // sessionStorage.setItem("studentLoginStatus", true);

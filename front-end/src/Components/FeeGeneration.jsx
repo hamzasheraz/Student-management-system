@@ -75,7 +75,7 @@ const FeeGeneration = () => {
     let getstudentdata = async () => {
       try {
         let data = await fetch(
-          `http://127.0.0.1:8000/api/studentsdata/${roll_number}`
+          `https://flexmanagement-feyaty98.b4a.run/api/studentsdata/${roll_number}`
         );
         let d = await data.json();
         setstudentData(d);
@@ -93,7 +93,7 @@ const FeeGeneration = () => {
       const course_id = studentData.course;
       //   console.log(course_id);
       axios
-        .post("http://127.0.0.1:8000/api/courses-info/", {
+        .post("https://flexmanagement-feyaty98.b4a.run/api/courses-info/", {
           course_id,
         })
         .then((response) => {

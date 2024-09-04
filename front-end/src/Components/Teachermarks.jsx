@@ -25,7 +25,7 @@ function Teachermarks() {
       // console.log('section is',section)
       // console.log("selected section is",selectedSection)
       const response = await fetch(
-        `http://127.0.0.1:8000/api/studentsdata/${section}/${selectedTest}`
+        `https://flexmanagement-feyaty98.b4a.run/api/studentsdata/${section}/${selectedTest}`
       );
       const data = await response.json();
 
@@ -105,7 +105,7 @@ function Teachermarks() {
       // Iterate over each student and send individual requests
       for (const student of studentData) {
         const response = await fetch(
-          `http://127.0.0.1:8000/api/update_student_marks/${section}/${selectedTest}/${student.rollno}`,
+          `https://flexmanagement-feyaty98.b4a.run/api/update_student_marks/${section}/${selectedTest}/${student.rollno}`,
           {
             method: "PUT",
             headers: {

@@ -28,7 +28,7 @@ function Profile() {
         // Fetch student data
         const rollNumber = localStorage.getItem("rollnumber");
         const studentResponse = await axios.get(
-          `http://127.0.0.1:8000/api/studentsdata/${rollNumber}`
+          `https://flexmanagement-feyaty98.b4a.run/api/studentsdata/${rollNumber}`
         );
         setStudentData(studentResponse.data);
         // console.log(studentData1);

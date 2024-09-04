@@ -12,7 +12,7 @@ const StudentProfileEdit = () => {
     // Implement save logic here, e.g., make an API call to save the changes
     if (name && password) {
       axios
-        .post("http://127.0.0.1:8000/api/teacher-edit/", {
+        .post("https://flexmanagement-feyaty98.b4a.run/api/teacher-edit/", {
           name,
           password,
           username,

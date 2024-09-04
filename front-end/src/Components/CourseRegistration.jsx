@@ -23,7 +23,7 @@ const CourseRegistration = () => {
       try {
         // Fetch student data
         const studentResponse = await axios.get(
-          `http://127.0.0.1:8000/api/studentsdata/${rollNumber}`
+          `https://flexmanagement-feyaty98.b4a.run/api/studentsdata/${rollNumber}`
         );
         setStudentData(studentResponse.data);
       } catch (error) {
@@ -41,7 +41,7 @@ const CourseRegistration = () => {
         try {
           // Fetch course data
           const courseInfoResponse = await axios.get(
-            `http://127.0.0.1:8000/api/course-info`
+            `https://flexmanagement-feyaty98.b4a.run/api/course-info`
           );
           setCourses(courseInfoResponse.data);
         } catch (error) {
@@ -63,7 +63,7 @@ const CourseRegistration = () => {
         )?.course_title;
         setCourseTitle(courseTitle);
         const subjectInfo = await axios.get(
-          `http://127.0.0.1:8000/api/subjects-info/${course_id}`
+          `https://flexmanagement-feyaty98.b4a.run/api/subjects-info/${course_id}`
         );
         setSubjects(subjectInfo.data); // Assuming subjectInfo has a data property
       } catch (error) {
@@ -82,7 +82,7 @@ const CourseRegistration = () => {
       return;
     } else {
       axios
-        .post("http://127.0.0.1:8000/api/register-student/", {
+        .post("https://flexmanagement-feyaty98.b4a.run/api/register-student/", {
           selectedCourse,
           rollNumber,
         })
