@@ -1,5 +1,5 @@
 # Use the official Node.js image as the base image with the LTS version for stability
-FROM node:20-alpine
+FROM node:20
 
 # Set environment variable to increase Node.js memory limit
 ENV NODE_OPTIONS="--max-old-space-size=4096"
@@ -10,8 +10,8 @@ WORKDIR /app
 # Copy only package.json and package-lock.json to leverage Docker's caching mechanism
 COPY package*.json ./
 
-# Install the dependencies
-RUN npm install --frozen-lockfile --production
+# Install all dependencies (including devDependencies)
+RUN npm install --frozen-lockfile
 
 # Copy the rest of the application files into the working directory
 COPY . .
